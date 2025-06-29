@@ -1,14 +1,12 @@
- !DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二维码生成器 - 免费在线二维码生成工具 | QR Code Generator</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description"
-        content="免费在线二维码生成器，支持文本、网址、联系人等多种格式，可自定义颜色、大小、容错级别。支持PNG、JPEG、SVG格式下载。Professional QR Code Generator with API support.">
+    <meta name="description" content="免费在线二维码生成器，支持文本、网址、联系人等多种格式，可自定义颜色、大小、容错级别。支持PNG、JPEG、SVG格式下载。Professional QR Code Generator with API support.">
     <meta name="keywords" content="二维码生成器, QR码生成, 二维码制作, 免费二维码, 在线二维码, QR Code Generator, QR Code API, 二维码API">
     <meta name="author" content="QR Code Generator">
 
@@ -48,504 +46,615 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 70%, #f5576c 100%);
             background-size: 400% 400%;
-            animation: gradientShift 10s ease infinite;
+            animation: gradientShift 15s ease infinite;
             min-height: 100vh;
-            padding: 10px;
-            margin: 0;
             overflow-x: hidden;
         }
 
         @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            25% {
-                background-position: 100% 50%;
-            }
-
-            50% {
-                background-position: 100% 100%;
-            }
-
-            75% {
-                background-position: 0% 100%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(25px);
-            border-radius: 25px;
-            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: slideInUp 1s ease-out;
+        /* 背景装饰 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.95);
-            }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(2deg); }
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px 25px;
             text-align: center;
+            padding: 40px 20px 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 7vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 255, 255, 0.2);
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-container {
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .content-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.15),
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
             overflow: hidden;
         }
 
-        .header h1 {
-            font-size: clamp(2rem, 6vw, 2.8rem);
-            font-weight: 800;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(80px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .header p {
-            opacity: 0.95;
-            font-size: clamp(1rem, 3.5vw, 1.2rem);
+        .content-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.03), transparent);
+            animation: rotateGlow 30s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .main-content {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-            padding: 30px 25px;
-        }
-
-        .form-section,
-        .preview-section {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            transition: all 0.4s ease;
-        }
-
-        .form-section:hover,
-        .preview-section:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+            align-items: start;
+            position: relative;
+            z-index: 1;
         }
 
         .form-section {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
+        }
+
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background:
+                linear-gradient(135deg, rgba(248, 249, 250, 0.8), rgba(255, 255, 255, 0.9)),
+                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(0,0,0,0.01) 20px, rgba(0,0,0,0.01) 40px);
+            border-radius: 25px;
+            padding: 40px;
+            min-height: 600px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow:
+                inset 0 1px 3px rgba(0, 0, 0, 0.05),
+                0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: sticky;
+            top: 20px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 5px;
         }
 
         .form-group label {
-            font-weight: 600;
+            font-weight: 700;
             color: #333;
-            font-size: 14px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 16px;
+        .form-group label::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 18px 20px;
             border: 2px solid rgba(225, 229, 233, 0.8);
-            border-radius: 14px;
+            border-radius: 16px;
             font-size: 16px;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             outline: none;
             background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            font-family: inherit;
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-            transform: translateY(-2px);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 8px 30px rgba(102, 126, 234, 0.15);
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+            line-height: 1.6;
         }
 
         .form-row {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         .color-input {
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 10px;
-            border-radius: 14px;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            border-radius: 16px;
             border: 2px solid rgba(225, 229, 233, 0.8);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .color-input:focus-within {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 8px 30px rgba(102, 126, 234, 0.15);
+            transform: translateY(-3px);
         }
 
         .color-input input[type="color"] {
-            width: 55px;
-            height: 45px;
+            width: 60px;
+            height: 50px;
             border: 3px solid #fff;
-            border-radius: 12px;
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-input input[type="color"]:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         .color-input input[type="text"] {
             border: none;
             background: transparent;
-            padding: 8px;
+            padding: 10px;
             flex: 1;
             font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            box-shadow: none;
+        }
+
+        .color-input input[type="text"]:focus {
+            transform: none;
+            box-shadow: none;
         }
 
         .generate-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 20px 40px;
-            border-radius: 16px;
-            font-size: 17px;
+            padding: 22px 45px;
+            border-radius: 18px;
+            font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.4s ease;
-            margin-top: 25px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            margin-top: 30px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4), 0 6px 20px rgba(102, 126, 234, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: inherit;
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .generate-btn:hover::before {
+            left: 100%;
         }
 
         .generate-btn:hover:not(:disabled) {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 18px 45px rgba(102, 126, 234, 0.5), 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .generate-btn:active {
+            transform: translateY(-2px);
+            transition: transform 0.1s;
         }
 
         .generate-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-        }
-
-        .preview-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 450px;
-            text-align: center;
+            transform: none;
         }
 
         .qr-preview {
             max-width: 100%;
-            max-height: 320px;
-            border-radius: 18px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            margin-bottom: 25px;
+            max-height: 350px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 12px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
             display: none;
-            transition: all 0.4s ease;
-            border: 3px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 4px solid rgba(255, 255, 255, 0.9);
+        }
+
+        .qr-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25), 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .placeholder {
-            width: 220px;
-            height: 220px;
-            border: 3px dashed rgba(153, 153, 153, 0.6);
-            border-radius: 18px;
+            width: 280px;
+            height: 280px;
+            border: 3px dashed rgba(153, 153, 153, 0.4);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #666;
             font-size: 16px;
             text-align: center;
-            background: linear-gradient(45deg, rgba(248, 249, 250, 0.8), rgba(255, 255, 255, 0.9));
-            animation: breathe 3s ease-in-out infinite;
+            background:
+                linear-gradient(45deg, rgba(248, 249, 250, 0.8), rgba(255, 255, 255, 0.9)),
+                repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(0,0,0,0.02) 15px, rgba(0,0,0,0.02) 30px);
+            animation: breathe 4s ease-in-out infinite;
+            font-weight: 500;
+            margin-bottom: 30px;
         }
 
         @keyframes breathe {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
 
-            0%,
-            100% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
+        .placeholder-content {
+            text-align: center;
+        }
 
-            50% {
-                opacity: 1;
-                transform: scale(1.02);
-            }
+        .placeholder-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .placeholder-text {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .placeholder-hint {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 10px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 6px solid rgba(243, 243, 243, 0.3);
+            border-top: 6px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            margin: 0 auto 25px;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
         }
 
         .download-btn {
             background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
             border: none;
-            padding: 16px 28px;
-            border-radius: 14px;
+            padding: 16px 30px;
+            border-radius: 16px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: none;
-            margin: 8px;
-            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4), 0 5px 15px rgba(40, 167, 69, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: inherit;
         }
 
         .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(40, 167, 69, 0.5);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
+            background: linear-gradient(135deg, #218838, #1ba883);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(40, 167, 69, 0.5), 0 8px 25px rgba(40, 167, 69, 0.3);
         }
 
         .api-url-section {
             width: 100%;
-            margin-top: 25px;
             display: none;
-            background: rgba(248, 249, 250, 0.9);
-            border-radius: 14px;
-            padding: 18px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(233, 236, 239, 0.8);
+            background:
+                linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(255, 255, 255, 0.9)),
+                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 40px);
+            border-radius: 18px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(233, 236, 239, 0.6);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 25px rgba(0, 0, 0, 0.05);
         }
 
         .api-url-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: #333;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .api-url-container {
             position: relative;
             background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(233, 236, 239, 0.8);
-            border-radius: 12px;
-            padding: 15px;
+            border: 2px solid rgba(233, 236, 239, 0.8);
+            border-radius: 14px;
+            padding: 20px;
             font-family: 'Monaco', 'Consolas', monospace;
-            font-size: clamp(10px, 2.5vw, 12px);
+            font-size: 13px;
             word-break: break-all;
-            line-height: 1.5;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+            max-height: 150px;
+            overflow-y: auto;
         }
 
         .copy-url-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: clamp(10px, 2.2vw, 12px);
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
-        }
-
-        .copy-url-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(243, 243, 243, 0.3);
-            border-top: 5px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1.2s ease infinite;
-            margin: 0 auto 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+        .copy-url-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .error {
             color: #dc3545;
-            background: linear-gradient(135deg, rgba(248, 215, 218, 0.95), rgba(248, 215, 218, 0.8));
-            padding: 18px;
-            border-radius: 14px;
-            margin-top: 20px;
+            background:
+                linear-gradient(135deg, rgba(248, 215, 218, 0.95), rgba(248, 215, 218, 0.8)),
+                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(220, 53, 69, 0.05) 20px, rgba(220, 53, 69, 0.05) 40px);
+            padding: 20px;
+            border-radius: 16px;
             display: none;
             border-left: 5px solid #dc3545;
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(220, 53, 69, 0.2);
+            font-weight: 500;
         }
 
         /* 响应式设计 */
-        @media (min-width: 769px) and (max-width: 1024px) {
+        @media (max-width: 1024px) {
             .main-content {
-                grid-template-columns: 1fr 1fr;
-                gap: 30px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (min-width: 1025px) {
-            .main-content {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
                 gap: 40px;
             }
 
-            .form-row {
-                grid-template-columns: 1fr 1fr;
+            .preview-section {
+                position: static;
+                min-height: 400px;
             }
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 8px;
-            }
-
-            .container {
-                border-radius: 22px;
-                margin: 0;
-            }
-
             .header {
-                padding: 25px 20px;
+                padding: 30px 20px 20px;
             }
 
-            .main-content {
-                padding: 25px 20px;
-                gap: 22px;
+            .main-container {
+                padding: 15px;
             }
 
-            .form-section,
-            .preview-section {
-                padding: 22px;
-                border-radius: 18px;
+            .content-wrapper {
+                padding: 30px 25px;
+                border-radius: 25px;
             }
 
             .form-row {
                 grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 20px;
             }
 
             .generate-btn {
-                padding: 18px 35px;
-                font-size: 16px;
                 width: 100%;
+                padding: 20px;
+                font-size: 16px;
             }
 
-            .preview-section {
-                min-height: 350px;
+            .placeholder {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 25px 15px 20px;
+            }
+
+            .main-container {
+                padding: 10px;
+            }
+
+            .content-wrapper {
+                padding: 25px 20px;
+                border-radius: 22px;
+            }
+
+            .form-section {
+                gap: 20px;
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                padding: 16px 18px;
+                font-size: 16px;
+            }
+
+            .color-input {
+                padding: 12px 15px;
+            }
+
+            .color-input input[type="color"] {
+                width: 50px;
+                height: 45px;
             }
 
             .placeholder {
                 width: 180px;
                 height: 180px;
             }
-        }
 
-        @media (max-width: 480px) {
-            body {
-                padding: 5px;
+            .placeholder-icon {
+                font-size: 30px;
             }
 
-            .container {
-                border-radius: 20px;
-            }
-
-            .header {
-                padding: 20px 15px;
-            }
-
-            .main-content {
-                padding: 20px 15px;
-            }
-
-            .form-section,
-            .preview-section {
-                padding: 18px;
-            }
-
-            .form-group input,
-            .form-group select,
-            .form-group textarea {
-                padding: 14px;
-                font-size: 16px;
-            }
-
-            .placeholder {
-                width: 160px;
-                height: 160px;
+            .placeholder-text {
                 font-size: 14px;
             }
         }
 
+        /* 触摸设备优化 */
         @media (hover: none) and (pointer: coarse) {
-
-            .form-group input,
-            .form-group select,
-            .form-group textarea,
-            .generate-btn,
-            .download-btn,
-            .copy-url-btn {
+            .form-group input, .form-group select, .form-group textarea,
+            .generate-btn, .download-btn, .copy-url-btn {
                 min-height: 48px;
             }
 
-            .form-section:hover,
-            .preview-section:hover {
+            .qr-preview:hover {
                 transform: none;
             }
 
-            .generate-btn:hover:not(:disabled),
-            .download-btn:hover {
+            .generate-btn:hover:not(:disabled), .download-btn:hover {
                 transform: none;
             }
 
-            .generate-btn:active,
-            .download-btn:active {
+            .generate-btn:active, .download-btn:active {
                 transform: scale(0.98);
             }
         }
 
+        /* 减少动画偏好 */
         @media (prefers-reduced-motion: reduce) {
-
-            *,
-            *::before,
-            *::after {
+            *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
@@ -553,129 +662,131 @@
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
+    <div class="app-container">
         <div class="header">
             <h1>🔲 二维码生成器</h1>
             <p>免费、快速、专业的在线二维码生成工具</p>
         </div>
 
-        <div class="main-content">
-            <div class="form-section">
-                <form id="qrForm">
-                    <div class="form-group">
-                        <label for="textInput">📝 内容 (文本/网址/联系方式等)</label>
-                        <textarea id="textInput" rows="3" placeholder="输入要生成二维码的内容，支持文本、网址、联系方式等任意内容"
-                            required></textarea>
+        <div class="main-container">
+            <div class="content-wrapper">
+                <div class="main-content">
+                    <div class="form-section">
+                        <form id="qrForm">
+                            <div class="form-group">
+                                <label for="textInput">📝 内容 (文本/网址/联系方式等)</label>
+                                <textarea id="textInput" rows="4" placeholder="输入要生成二维码的内容，支持文本、网址、联系方式等任意内容" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="labelInput">🏷️ 标签文字 (可选)</label>
+                                <input type="text" id="labelInput" placeholder="在二维码下方显示的说明文字">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="sizeInput">📏 尺寸</label>
+                                    <select id="sizeInput">
+                                        <option value="200">200x200 (小)</option>
+                                        <option value="300" selected>300x300 (中)</option>
+                                        <option value="400">400x400 (大)</option>
+                                        <option value="500">500x500 (超大)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="marginInput">🔲 边距</label>
+                                    <select id="marginInput">
+                                        <option value="1">1 (最小)</option>
+                                        <option value="2" selected>2 (默认)</option>
+                                        <option value="3">3 (中等)</option>
+                                        <option value="4">4 (较大)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="errorLevelInput">🛡️ 容错级别</label>
+                                    <select id="errorLevelInput">
+                                        <option value="L">L - 低 (~7%)</option>
+                                        <option value="M" selected>M - 中 (~15%)</option>
+                                        <option value="Q">Q - 较高 (~25%)</option>
+                                        <option value="H">H - 高 (~30%)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="formatInput">🖼️ 图片格式</label>
+                                    <select id="formatInput">
+                                        <option value="png" selected>PNG</option>
+                                        <option value="jpg">JPEG</option>
+                                        <option value="svg">SVG</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>🎨 前景色</label>
+                                    <div class="color-input">
+                                        <input type="color" id="colorInput" value="#000000">
+                                        <input type="text" id="colorText" value="#000000">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>🎨 背景色</label>
+                                    <div class="color-input">
+                                        <input type="color" id="bgColorInput" value="#ffffff">
+                                        <input type="text" id="bgColorText" value="#ffffff">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="generate-btn">✨ 生成二维码</button>
+                        </form>
                     </div>
 
-                    <div class="form-group">
-                        <label for="labelInput">🏷️ 标签文字 (可选)</label>
-                        <input type="text" id="labelInput" placeholder="在二维码下方显示的说明文字">
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="sizeInput">📏 尺寸</label>
-                            <select id="sizeInput">
-                                <option value="200">200x200 (小)</option>
-                                <option value="300" selected>300x300 (中)</option>
-                                <option value="400">400x400 (大)</option>
-                                <option value="500">500x500 (超大)</option>
-                            </select>
+                    <div class="preview-section">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <div class="loading-text">正在生成二维码...</div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="marginInput">🔲 边距</label>
-                            <select id="marginInput">
-                                <option value="1">1 (最小)</option>
-                                <option value="2" selected>2 (默认)</option>
-                                <option value="3">3 (中等)</option>
-                                <option value="4">4 (较大)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="errorLevelInput">🛡️ 容错级别</label>
-                            <select id="errorLevelInput">
-                                <option value="L">L - 低 (~7%)</option>
-                                <option value="M" selected>M - 中 (~15%)</option>
-                                <option value="Q">Q - 较高 (~25%)</option>
-                                <option value="H">H - 高 (~30%)</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="formatInput">🖼️ 图片格式</label>
-                            <select id="formatInput">
-                                <option value="png" selected>PNG</option>
-                                <option value="jpg">JPEG</option>
-                                <option value="svg">SVG</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>🎨 前景色</label>
-                            <div class="color-input">
-                                <input type="color" id="colorInput" value="#000000">
-                                <input type="text" id="colorText" value="#000000">
+                        <div class="placeholder">
+                            <div class="placeholder-content">
+                                <div class="placeholder-icon">📱</div>
+                                <div class="placeholder-text">二维码预览</div>
+                                <div class="placeholder-hint">填写内容后点击生成</div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>🎨 背景色</label>
-                            <div class="color-input">
-                                <input type="color" id="bgColorInput" value="#ffffff">
-                                <input type="text" id="bgColorText" value="#ffffff">
+                        <img id="qrImage" class="qr-preview" alt="Generated QR Code">
+
+                        <div class="button-group">
+                            <button id="downloadBtn" class="download-btn">💾 下载二维码</button>
+                        </div>
+
+                        <div id="apiUrlSection" class="api-url-section">
+                            <div class="api-url-title">📡 API 请求地址</div>
+                            <div class="api-url-container">
+                                <div id="apiUrlDisplay"></div>
+                                <button id="copyUrlBtn" class="copy-url-btn">📋 复制</button>
                             </div>
                         </div>
-                    </div>
 
-                    <button type="submit" class="generate-btn">✨ 生成二维码</button>
-                </form>
-            </div>
-
-            <div class="preview-section">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>正在生成二维码...</p>
-                </div>
-
-                <div class="placeholder">
-                    <div>
-                        <div style="font-size: 24px; margin-bottom: 10px;">📱</div>
-                        <div>二维码预览</div>
-                        <div style="font-size: 12px; margin-top: 8px; opacity: 0.7;">填写内容后点击生成</div>
+                        <div class="error" id="errorMessage"></div>
                     </div>
                 </div>
-
-                <img id="qrImage" class="qr-preview" alt="Generated QR Code">
-
-                <div class="button-group">
-                    <button id="downloadBtn" class="download-btn">💾 下载二维码</button>
-                </div>
-
-                <div id="apiUrlSection" class="api-url-section">
-                    <div class="api-url-title">📡 API 请求地址</div>
-                    <div class="api-url-container">
-                        <div id="apiUrlDisplay"></div>
-                        <button id="copyUrlBtn" class="copy-url-btn">📋 复制</button>
-                    </div>
-                </div>
-
-                <div class="error" id="errorMessage"></div>
             </div>
         </div>
     </div>
 
     <script>
         // 初始化
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // 颜色输入同步
             const colorInput = document.getElementById('colorInput');
             const colorText = document.getElementById('colorText');
@@ -697,7 +808,6 @@
         async function generateQR(e) {
             e.preventDefault();
 
-            const formData = new FormData(e.target);
             const text = document.getElementById('textInput').value.trim();
             const label = document.getElementById('labelInput').value.trim();
             const size = document.getElementById('sizeInput').value;
@@ -760,7 +870,7 @@
             apiUrlSection.style.display = 'block';
 
             // 设置下载功能
-            downloadBtn.onclick = function () {
+            downloadBtn.onclick = function() {
                 const link = document.createElement('a');
                 link.href = imageUrl;
                 link.download = `qrcode_${Date.now()}.${document.getElementById('formatInput').value}`;
@@ -817,5 +927,4 @@
         }
     </script>
 </body>
-
 </html>
