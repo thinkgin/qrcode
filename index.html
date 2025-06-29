@@ -1696,7 +1696,7 @@ if __name__ == '__main__':
                 <!-- PHP 示例 -->
                 <div class="code-content" id="php">
                     <button class="copy-btn" onclick="copyCode('php')">复制代码</button>
-                    <pre><code><?php
+                    <pre><code>&lt;?php
 // PHP cURL 二维码生成示例
 
 /**
@@ -1859,7 +1859,7 @@ generateQRCodeSafe('测试安全生成', [
     'bgcolor' => 'F0F8FF'
 ]);
 
-?></code></pre>
+?&gt;</code></pre>
                 </div>
 
                 <!-- Go 示例 -->
@@ -2150,7 +2150,17 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                 return;
             }
 
-            const text = codeBlock.textContent;
+            let text = codeBlock.textContent || codeBlock.innerText;
+
+            // 如果是PHP代码，需要处理HTML实体编码
+            if (language === 'php') {
+                // 将HTML实体编码转换回原始字符
+                text = text.replace(/&lt;/g, '<')
+                          .replace(/&gt;/g, '>')
+                          .replace(/&amp;/g, '&')
+                          .replace(/&quot;/g, '"')
+                          .replace(/&#39;/g, "'");
+            }
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
@@ -2177,6 +2187,15 @@ echo "二维码已保存为 qrcode.png"</code></pre>
         }
 
         function fallbackCopyTextToClipboard(text, language) {
+            // 如果还没有处理过HTML实体编码，这里再处理一遍
+            if (language === 'php' && text.includes('&lt;')) {
+                text = text.replace(/&lt;/g, '<')
+                          .replace(/&gt;/g, '>')
+                          .replace(/&amp;/g, '&')
+                          .replace(/&quot;/g, '"')
+                          .replace(/&#39;/g, "'");
+            }
+
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.position = "fixed";
