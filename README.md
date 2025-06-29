@@ -48,6 +48,32 @@ curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF000
 | `format`  | string  | 否   | png    | 图片格式：png、jpg、gif、svg           |
 | `label`   | string  | 否   | -      | 可选的标签文字，显示在二维码下方       |
 
+## 🔌 API 端点
+
+### 基本用法
+
+```
+GET https://qrcode.thinkgin.com/qrcode?data={content}&size={size}&color={color}&bgcolor={bgcolor}&ecc={level}&margin={margin}&format={format}&label={label}
+```
+
+### 返回说明
+
+- **成功**：返回二维码图片文件（二进制数据）
+- **失败**：返回错误信息（文本格式）
+
+### 请求示例
+
+```bash
+# 基本用法
+curl "https://qrcode.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
+
+# 完整参数示例
+curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png&label=我的二维码" -o qrcode.png
+
+# 生成SVG格式
+curl "https://qrcode.thinkgin.com/qrcode?data=https://github.com&format=svg" -o qrcode.svg
+```
+
 ## 💻 代码示例
 
 ### JavaScript
@@ -137,6 +163,112 @@ function generateQRCode() {
 
 generateQRCode();
 ```
+
+### PHP
+
+```php
+<?php
+function generateQRCode() {
+    $params = http_build_query([
+        'data' => 'https://example.com',
+        'size' => '300',
+        'color' => '000000',
+        'bgcolor' => 'ffffff',
+        'ecc' => 'M',
+        'margin' => '1',
+        'format' => 'png'
+    ]);
+
+    $url = "https://qrcode.thinkgin.com/qrcode?" . $params;
+
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'GET',
+            'timeout' => 30
+        ]
+    ]);
+
+    $content = file_get_contents($url, false, $context);
+
+    if ($content !== false) {
+        file_put_contents('qrcode.png', $content);
+        echo "二维码保存成功: qrcode.png\n";
+    } else {
+        echo "生成二维码失败\n";
+    }
+}
+
+generateQRCode();
+?>
+```
+
+### Go
+
+```go
+package main
+
+import (
+    "fmt"
+    "io"
+    "net/http"
+    "net/url"
+    "os"
+)
+
+func generateQRCode() error {
+    params := url.Values{}
+    params.Set("data", "https://example.com")
+    params.Set("size", "300")
+    params.Set("color", "000000")
+    params.Set("bgcolor", "ffffff")
+    params.Set("ecc", "M")
+    params.Set("margin", "1")
+    params.Set("format", "png")
+
+    apiURL := "https://qrcode.thinkgin.com/qrcode?" + params.Encode()
+
+    resp, err := http.Get(apiURL)
+    if err != nil {
+        return fmt.Errorf("请求失败: %v", err)
+    }
+    defer resp.Body.Close()
+
+    if resp.StatusCode != http.StatusOK {
+        return fmt.Errorf("生成二维码失败: %d", resp.StatusCode)
+    }
+
+    file, err := os.Create("qrcode.png")
+    if err != nil {
+        return fmt.Errorf("创建文件失败: %v", err)
+    }
+    defer file.Close()
+
+    _, err = io.Copy(file, resp.Body)
+    if err != nil {
+        return fmt.Errorf("保存文件失败: %v", err)
+    }
+
+    fmt.Println("二维码保存成功: qrcode.png")
+    return nil
+}
+
+func main() {
+    if err := generateQRCode(); err != nil {
+        fmt.Printf("错误: %v\n", err)
+    }
+}
+```
+
+## 💡 使用提示
+
+- **URL 编码**：确保 data 参数中的特殊字符进行 URL 编码
+- **颜色格式**：颜色参数使用 6 位十六进制代码，不包含#号
+- **大小限制**：推荐大小范围为 100-1000 像素
+- **缓存机制**：相同参数的请求会被缓存 1 小时
+- **跨域支持**：API 支持 CORS，可直接在浏览器中调用
+- **容错级别**：L=7%，M=15%，Q=25%，H=30%的容错率
+- **标签功能**：当提供 label 参数时，会使用支持标签的 API 服务
+- **图片格式**：支持 PNG、JPG、GIF、SVG 多种格式输出
 
 ## 🛠️ 本地开发
 
