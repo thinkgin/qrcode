@@ -227,6 +227,145 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* API 文档样式 */
+        .api-section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .api-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .api-title h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .api-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .api-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .api-endpoint {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .api-endpoint h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .endpoint-url {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .params-table th,
+        .params-table td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .params-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .params-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .code-section {
+            margin-top: 30px;
+        }
+
+        .code-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .code-tab {
+            background: #e9ecef;
+            color: #495057;
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 14px;
+        }
+
+        .code-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .code-tab:hover:not(.active) {
+            background: #dee2e6;
+        }
+
+        .code-content {
+            display: none;
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 0 10px 10px 10px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .code-content.active {
+            display: block;
+        }
+
+        .copy-btn {
+            float: right;
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #2d3748;
+        }
+
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -245,6 +384,22 @@
             .radio-group {
                 flex-direction: column;
                 gap: 10px;
+            }
+
+            .api-section {
+                padding: 20px;
+            }
+
+            .code-tabs {
+                flex-direction: column;
+            }
+
+            .code-tab {
+                border-radius: 8px;
+            }
+
+            .code-content {
+                border-radius: 10px;
             }
         }
     </style>
@@ -365,6 +520,365 @@
                 <button class="download-btn" id="downloadBtn">
                     📥 下载二维码
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- API 文档部分 -->
+    <div class="api-section">
+        <div class="api-title">
+            <h2>🔌 API 文档</h2>
+            <p>为开发者提供简单易用的二维码生成API</p>
+        </div>
+
+        <div class="api-content">
+            <div class="api-endpoint">
+                <h3>API 端点</h3>
+                <div class="endpoint-url">
+                    GET /qrcode?data={content}&size={size}&color={color}&bgcolor={bgcolor}&ecc={level}&margin={margin}&format={format}
+                </div>
+
+                <h4>参数说明</h4>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>参数名</th>
+                            <th>类型</th>
+                            <th>必填</th>
+                            <th>默认值</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>data</code></td>
+                            <td>string</td>
+                            <td>是</td>
+                            <td>-</td>
+                            <td>要生成二维码的内容（网址、文本等）</td>
+                        </tr>
+                        <tr>
+                            <td><code>size</code></td>
+                            <td>integer</td>
+                            <td>否</td>
+                            <td>300</td>
+                            <td>二维码大小（像素），支持 100-1000</td>
+                        </tr>
+                        <tr>
+                            <td><code>color</code></td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>000000</td>
+                            <td>前景色，6位十六进制颜色代码（不含#）</td>
+                        </tr>
+                        <tr>
+                            <td><code>bgcolor</code></td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>ffffff</td>
+                            <td>背景色，6位十六进制颜色代码（不含#）</td>
+                        </tr>
+                        <tr>
+                            <td><code>ecc</code></td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>M</td>
+                            <td>容错级别：L(低)、M(中)、Q(高)、H(最高)</td>
+                        </tr>
+                        <tr>
+                            <td><code>margin</code></td>
+                            <td>integer</td>
+                            <td>否</td>
+                            <td>1</td>
+                            <td>内边距，支持 0-4</td>
+                        </tr>
+                        <tr>
+                            <td><code>format</code></td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>png</td>
+                            <td>图片格式：png、jpg、gif、svg</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>返回说明</h4>
+                <ul style="padding-left: 20px; margin: 15px 0;">
+                    <li>成功：返回二维码图片文件（二进制数据）</li>
+                    <li>失败：返回错误信息（文本格式）</li>
+                </ul>
+            </div>
+
+            <div class="code-section">
+                <h3>代码示例</h3>
+
+                <div class="code-tabs">
+                    <button class="code-tab active" onclick="showCode('javascript')">JavaScript</button>
+                    <button class="code-tab" onclick="showCode('nodejs')">Node.js</button>
+                    <button class="code-tab" onclick="showCode('python')">Python</button>
+                    <button class="code-tab" onclick="showCode('php')">PHP</button>
+                    <button class="code-tab" onclick="showCode('go')">Go</button>
+                    <button class="code-tab" onclick="showCode('curl')">cURL</button>
+                </div>
+
+                <!-- JavaScript 示例 -->
+                <div class="code-content active" id="javascript">
+                    <button class="copy-btn" onclick="copyCode('javascript')">复制代码</button>
+                    <pre><code>// 浏览器端 JavaScript
+async function generateQRCode() {
+    const params = new URLSearchParams({
+        data: 'https://example.com',
+        size: '300',
+        color: '000000',
+        bgcolor: 'ffffff',
+        ecc: 'M',
+        margin: '1',
+        format: 'png'
+    });
+
+    try {
+        const response = await fetch(`/qrcode?${params.toString()}`);
+
+        if (!response.ok) {
+            throw new Error(await response.text());
+        }
+
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+
+        // 显示图片
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        document.body.appendChild(img);
+
+        // 下载图片
+        const a = document.createElement('a');
+        a.href = imageUrl;
+        a.download = 'qrcode.png';
+        a.click();
+
+    } catch (error) {
+        console.error('生成二维码失败:', error);
+    }
+}</code></pre>
+                </div>
+
+                <!-- Node.js 示例 -->
+                <div class="code-content" id="nodejs">
+                    <button class="copy-btn" onclick="copyCode('nodejs')">复制代码</button>
+                    <pre><code>// Node.js
+const fs = require('fs');
+const https = require('https');
+const { URLSearchParams } = require('url');
+
+function generateQRCode() {
+    const params = new URLSearchParams({
+        data: 'https://example.com',
+        size: '300',
+        color: '000000',
+        bgcolor: 'ffffff',
+        ecc: 'M',
+        margin: '1',
+        format: 'png'
+    });
+
+    const url = `https://yourdomain.com/qrcode?${params.toString()}`;
+
+    const file = fs.createWriteStream('qrcode.png');
+
+    https.get(url, (response) => {
+        if (response.statusCode === 200) {
+            response.pipe(file);
+            file.on('finish', () => {
+                file.close();
+                console.log('二维码保存成功: qrcode.png');
+            });
+        } else {
+            console.error('生成二维码失败:', response.statusCode);
+        }
+    }).on('error', (error) => {
+        console.error('请求失败:', error);
+    });
+}
+
+generateQRCode();</code></pre>
+                </div>
+
+                <!-- Python 示例 -->
+                <div class="code-content" id="python">
+                    <button class="copy-btn" onclick="copyCode('python')">复制代码</button>
+                    <pre><code># Python
+import requests
+from urllib.parse import urlencode
+
+def generate_qrcode():
+    params = {
+        'data': 'https://example.com',
+        'size': '300',
+        'color': '000000',
+        'bgcolor': 'ffffff',
+        'ecc': 'M',
+        'margin': '1',
+        'format': 'png'
+    }
+
+    url = f"https://yourdomain.com/qrcode?{urlencode(params)}"
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+
+        # 保存图片
+        with open('qrcode.png', 'wb') as f:
+            f.write(response.content)
+
+        print('二维码保存成功: qrcode.png')
+
+    except requests.exceptions.RequestException as e:
+        print(f'生成二维码失败: {e}')
+
+# 使用示例
+if __name__ == '__main__':
+    generate_qrcode()</code></pre>
+                </div>
+
+                <!-- PHP 示例 -->
+                <div class="code-content" id="php">
+                    <button class="copy-btn" onclick="copyCode('php')">复制代码</button>
+                    <pre><code><?php
+// PHP
+function generateQRCode() {
+    $params = http_build_query([
+        'data' => 'https://example.com',
+        'size' => '300',
+        'color' => '000000',
+        'bgcolor' => 'ffffff',
+        'ecc' => 'M',
+        'margin' => '1',
+        'format' => 'png'
+    ]);
+
+    $url = "https://yourdomain.com/qrcode?" . $params;
+
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'GET',
+            'timeout' => 30
+        ]
+    ]);
+
+    $content = file_get_contents($url, false, $context);
+
+    if ($content !== false) {
+        file_put_contents('qrcode.png', $content);
+        echo "二维码保存成功: qrcode.png\n";
+    } else {
+        echo "生成二维码失败\n";
+    }
+}
+
+// 使用示例
+generateQRCode();
+?></code></pre>
+                </div>
+
+                <!-- Go 示例 -->
+                <div class="code-content" id="go">
+                    <button class="copy-btn" onclick="copyCode('go')">复制代码</button>
+                    <pre><code>// Go
+package main
+
+import (
+    "fmt"
+    "io"
+    "net/http"
+    "net/url"
+    "os"
+)
+
+func generateQRCode() error {
+    params := url.Values{}
+    params.Set("data", "https://example.com")
+    params.Set("size", "300")
+    params.Set("color", "000000")
+    params.Set("bgcolor", "ffffff")
+    params.Set("ecc", "M")
+    params.Set("margin", "1")
+    params.Set("format", "png")
+
+    apiURL := "https://yourdomain.com/qrcode?" + params.Encode()
+
+    resp, err := http.Get(apiURL)
+    if err != nil {
+        return fmt.Errorf("请求失败: %v", err)
+    }
+    defer resp.Body.Close()
+
+    if resp.StatusCode != http.StatusOK {
+        return fmt.Errorf("生成二维码失败: %d", resp.StatusCode)
+    }
+
+    file, err := os.Create("qrcode.png")
+    if err != nil {
+        return fmt.Errorf("创建文件失败: %v", err)
+    }
+    defer file.Close()
+
+    _, err = io.Copy(file, resp.Body)
+    if err != nil {
+        return fmt.Errorf("保存文件失败: %v", err)
+    }
+
+    fmt.Println("二维码保存成功: qrcode.png")
+    return nil
+}
+
+func main() {
+    if err := generateQRCode(); err != nil {
+        fmt.Printf("错误: %v\n", err)
+    }
+}</code></pre>
+                </div>
+
+                <!-- cURL 示例 -->
+                <div class="code-content" id="curl">
+                    <button class="copy-btn" onclick="copyCode('curl')">复制代码</button>
+                    <pre><code># cURL 命令行
+# 基本用法
+curl "https://yourdomain.com/qrcode?data=https://example.com" \
+  -o qrcode.png
+
+# 带参数的完整示例
+curl "https://yourdomain.com/qrcode?data=https://example.com&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png" \
+  -o qrcode.png
+
+# 生成SVG格式
+curl "https://yourdomain.com/qrcode?data=Hello%20World&format=svg" \
+  -o qrcode.svg
+
+# 使用变量
+URL="https://example.com"
+SIZE="500"
+COLOR="000000"
+BGCOLOR="ffffff"
+
+curl "https://yourdomain.com/qrcode?data=${URL}&size=${SIZE}&color=${COLOR}&bgcolor=${BGCOLOR}" \
+  -o qrcode.png
+
+echo "二维码已保存为 qrcode.png"</code></pre>
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>💡 使用提示</h3>
+                <ul style="padding-left: 20px; margin: 15px 0; line-height: 1.6;">
+                    <li><strong>URL编码</strong>：确保data参数中的特殊字符进行URL编码</li>
+                    <li><strong>颜色格式</strong>：颜色参数使用6位十六进制代码，不包含#号</li>
+                    <li><strong>大小限制</strong>：推荐大小范围为100-1000像素</li>
+                    <li><strong>缓存机制</strong>：相同参数的请求会被缓存1小时</li>
+                    <li><strong>跨域支持</strong>：API支持CORS，可直接在浏览器中调用</li>
+                    <li><strong>容错级别</strong>：L=7%，M=15%，Q=25%，H=30%的容错率</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -517,6 +1031,44 @@
                 urlInput.placeholder = examples[Math.floor(Math.random() * examples.length)];
             }
         });
+
+        // API 文档相关功能
+        function showCode(language) {
+            // 隐藏所有代码块
+            document.querySelectorAll('.code-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 移除所有标签的active状态
+            document.querySelectorAll('.code-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 显示选中的代码块
+            document.getElementById(language).classList.add('active');
+
+            // 激活选中的标签
+            event.target.classList.add('active');
+        }
+
+        function copyCode(language) {
+            const codeBlock = document.querySelector(`#${language} code`);
+            const text = codeBlock.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '已复制!';
+                btn.style.background = '#48bb78';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#4a5568';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        }
     </script>
 </body>
 </html>
