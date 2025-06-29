@@ -192,6 +192,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             display: none;
+            margin-right: 10px;
         }
 
         .download-btn:hover {
@@ -366,6 +367,56 @@
             background: #2d3748;
         }
 
+        .api-url-section {
+            width: 100%;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .api-url-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .api-url-container {
+            position: relative;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .copy-url-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-url-btn:hover {
+            background: #5a67d8;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -517,9 +568,19 @@
 
                 <img id="qrImage" class="qr-preview" alt="生成的二维码">
 
-                <button class="download-btn" id="downloadBtn">
-                    📥 下载二维码
-                </button>
+                <div class="button-group">
+                    <button class="download-btn" id="downloadBtn">
+                        📥 下载二维码
+                    </button>
+                </div>
+
+                <div class="api-url-section" id="apiUrlSection">
+                    <div class="api-url-title">API 请求地址：</div>
+                    <div class="api-url-container">
+                        <button class="copy-url-btn" onclick="copyApiUrl()">复制</button>
+                        <div id="apiUrlDisplay"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -950,13 +1011,13 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                     format: formatInput.value
                 });
 
-                // 添加标签
+                // 添加标签参数
                 if (labelInput.value.trim()) {
-                    params.append('qzone', '1');
-                    params.append('download', '1');
+                    params.append('label', labelInput.value.trim());
                 }
 
-                const response = await fetch(`/qrcode?${params.toString()}`);
+                const apiUrl = `/qrcode?${params.toString()}`;
+                const response = await fetch(apiUrl);
 
                 if (!response.ok) {
                     const errorText = await response.text();
@@ -966,7 +1027,7 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                 const blob = await response.blob();
                 const imageUrl = URL.createObjectURL(blob);
 
-                showResult(imageUrl);
+                showResult(imageUrl, window.location.origin + apiUrl);
 
             } catch (err) {
                 showError(err.message);
@@ -987,7 +1048,7 @@ echo "二维码已保存为 qrcode.png"</code></pre>
             loading.style.display = 'none';
         }
 
-        function showResult(imageUrl) {
+        function showResult(imageUrl, apiUrl) {
             placeholder.style.display = 'none';
             qrImage.src = imageUrl;
             qrImage.style.display = 'block';
@@ -1000,12 +1061,19 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                 a.download = `qrcode-${Date.now()}.${formatInput.value}`;
                 a.click();
             };
+
+            // 显示完整的API URL
+            const apiUrlDisplay = document.getElementById('apiUrlDisplay');
+            const apiUrlSection = document.getElementById('apiUrlSection');
+            apiUrlDisplay.textContent = apiUrl;
+            apiUrlSection.style.display = 'block';
         }
 
         function hideResult() {
             qrImage.style.display = 'none';
             downloadBtn.style.display = 'none';
             placeholder.style.display = 'flex';
+            document.getElementById('apiUrlSection').style.display = 'none';
         }
 
         function showError(message) {
@@ -1064,6 +1132,23 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                 setTimeout(() => {
                     btn.textContent = originalText;
                     btn.style.background = '#4a5568';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        }
+
+        function copyApiUrl() {
+            const apiUrl = document.getElementById('apiUrlDisplay').textContent;
+            navigator.clipboard.writeText(apiUrl).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '已复制!';
+                btn.style.background = '#48bb78';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#667eea';
                 }, 2000);
             }).catch(err => {
                 console.error('复制失败:', err);
