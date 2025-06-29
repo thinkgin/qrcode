@@ -223,8 +223,6 @@
             border: 2px solid rgba(225, 229, 233, 0.8);
             transition: all 0.4s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-            width: 100%;
-            min-width: 0;
         }
 
         .color-input:focus-within {
@@ -241,7 +239,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
         }
 
         .color-input input[type="color"]:hover {
@@ -257,8 +254,6 @@
             font-family: 'Monaco', 'Consolas', monospace;
             font-size: 14px;
             box-shadow: none;
-            min-width: 0;
-            width: 100%;
         }
 
         .color-input input[type="text"]:focus {
@@ -507,26 +502,38 @@
 
         /* API 文档样式 */
         .api-section {
+            max-width: 1400px;
+            margin: 60px auto 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.15),
+                0 15px 30px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 60px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .api-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background:
                 linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.95)),
                 repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(0,0,0,0.01) 30px, rgba(0,0,0,0.01) 60px);
-            padding: 60px 40px;
-            border-top: none;
-            backdrop-filter: blur(10px);
-            margin-top: -20px;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        /* 添加连接元素减少割裂感 */
-        .main-content::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 20px;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
-            pointer-events: none;
+        .api-section > * {
+            position: relative;
+            z-index: 1;
         }
 
         .api-title {
@@ -747,7 +754,7 @@
             box-shadow: 0 12px 35px rgba(36, 41, 46, 0.5);
         }
 
-        /* 响应式设计优化 */
+        /* 响应式设计 */
         @media (max-width: 1024px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -762,17 +769,15 @@
 
             .api-section {
                 padding: 40px 25px;
-                margin-top: 0;
+                margin: 50px auto 0 auto;
             }
 
             .form-grid-4 {
                 grid-template-columns: 1fr 1fr;
-                gap: 15px;
             }
 
             .form-grid-3 {
                 grid-template-columns: 1fr 1fr;
-                gap: 15px;
             }
 
             .floating-links {
@@ -783,14 +788,78 @@
 
         @media (max-width: 768px) {
             body {
-                padding: 3px;
+                padding: 5px;
             }
 
             .container {
-                border-radius: 15px;
-                margin: 0;
+                border-radius: 20px;
             }
 
+            .header {
+                padding: 30px 20px;
+            }
+
+            .main-content {
+                padding: 25px 20px;
+                gap: 30px;
+            }
+
+            .form-grid-2, .form-grid-3, .form-grid-4, .color-group {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .generate-btn {
+                width: 100%;
+                padding: 18px;
+                font-size: 16px;
+            }
+
+            .placeholder {
+                width: 240px;
+                height: 240px;
+            }
+
+            .api-section {
+                padding: 30px 20px;
+                margin: 40px auto 0 auto;
+            }
+
+            .api-endpoint {
+                padding: 25px 20px;
+            }
+
+            .code-tabs {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .code-tab {
+                border-radius: 12px;
+                text-align: center;
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+
+            .code-content {
+                border-radius: 12px;
+                font-size: 12px;
+                padding: 20px 15px;
+            }
+
+            .floating-links {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .floating-link {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
             .header {
                 padding: 25px 15px;
             }
@@ -801,32 +870,21 @@
             }
 
             .form-section {
-                gap: 18px;
-            }
-
-            .form-grid-2, .form-grid-3, .form-grid-4, .color-group {
-                grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 20px;
             }
 
             .form-group input, .form-group select, .form-group textarea {
                 padding: 14px 16px;
                 font-size: 14px;
-                border-radius: 12px;
             }
 
             .color-input {
-                padding: 12px 16px;
-                border-radius: 12px;
+                padding: 10px 15px;
             }
 
-            .generate-btn {
-                width: 100%;
-                padding: 16px 20px;
-                font-size: 15px;
-                margin-top: 20px;
-                border-radius: 15px;
-                letter-spacing: 0.5px;
+            .color-input input[type="color"] {
+                width: 45px;
+                height: 40px;
             }
 
             .placeholder {
@@ -837,354 +895,43 @@
 
             .api-section {
                 padding: 25px 15px;
+                margin: 30px auto 0 auto;
             }
 
             .api-endpoint {
                 padding: 20px 15px;
             }
 
+            .params-table th,
+            .params-table td {
+                padding: 12px 8px;
+                font-size: 12px;
+            }
+
+            .endpoint-url {
+                font-size: 11px;
+                padding: 15px;
+            }
+
             .code-tabs {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
+                grid-template-columns: 1fr;
+                gap: 5px;
             }
 
             .code-tab {
-                border-radius: 10px;
-                text-align: center;
-                padding: 12px 8px;
+                padding: 12px;
                 font-size: 12px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
 
             .code-content {
-                border-radius: 12px;
-                font-size: 12px;
+                font-size: 11px;
                 padding: 15px 12px;
-            }
-
-            .floating-links {
-                bottom: 15px;
-                right: 15px;
+                line-height: 1.4;
             }
 
             .floating-link {
                 padding: 10px 14px;
                 font-size: 12px;
-            }
-
-            .params-table {
-                font-size: 12px;
-            }
-
-            .params-table th,
-            .params-table td {
-                padding: 10px 8px;
-                font-size: 12px;
-            }
-
-            .endpoint-url {
-                font-size: 12px;
-                padding: 12px;
-                word-break: break-all;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 2px;
-            }
-
-            .container {
-                border-radius: 12px;
-            }
-
-            .header {
-                padding: 20px 12px;
-            }
-
-            .main-content {
-                padding: 15px 12px;
-                gap: 20px;
-            }
-
-            .form-section {
-                gap: 15px;
-            }
-
-            .form-group {
-                gap: 8px;
-            }
-
-            .form-group label {
-                font-size: 14px;
-            }
-
-            .form-group input, .form-group select, .form-group textarea {
-                padding: 12px 14px;
-                font-size: 13px;
-                border-radius: 10px;
-            }
-
-            .color-input {
-                padding: 8px 12px;
-                gap: 10px;
-            }
-
-            .color-input input[type="color"] {
-                width: 40px;
-                height: 35px;
-                border-radius: 8px;
-            }
-
-            .color-input input[type="text"] {
-                font-size: 12px;
-                padding: 6px;
-            }
-
-            .generate-btn {
-                width: 100%;
-                padding: 14px 16px;
-                font-size: 14px;
-                margin-top: 15px;
-                border-radius: 12px;
-                letter-spacing: 0.3px;
-            }
-
-            .placeholder {
-                width: 160px;
-                height: 160px;
-                font-size: 13px;
-            }
-
-            .download-btn {
-                padding: 12px 20px;
-                font-size: 13px;
-                border-radius: 10px;
-            }
-
-            .api-section {
-                padding: 20px 12px;
-            }
-
-            .api-endpoint {
-                padding: 15px 12px;
-            }
-
-            .params-table th,
-            .params-table td {
-                padding: 8px 6px;
-                font-size: 11px;
-            }
-
-            .endpoint-url {
-                font-size: 10px;
-                padding: 10px;
-                line-height: 1.4;
-            }
-
-            .code-tabs {
-                grid-template-columns: 1fr 1fr;
-                gap: 5px;
-            }
-
-            .code-tab {
-                padding: 10px 6px;
-                font-size: 11px;
-                border-radius: 8px;
-            }
-
-            .code-content {
-                font-size: 10px;
-                padding: 12px 10px;
-                line-height: 1.3;
-            }
-
-            .copy-btn {
-                padding: 6px 10px;
-                font-size: 9px;
-            }
-
-            .floating-link {
-                padding: 8px 12px;
-                font-size: 11px;
-            }
-
-            .api-url-container {
-                font-size: 10px;
-                padding: 10px;
-                max-height: 100px;
-            }
-
-            .copy-url-btn {
-                padding: 6px 10px;
-                font-size: 9px;
-                top: 6px;
-                right: 6px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            body {
-                padding: 1px;
-            }
-
-            .container {
-                border-radius: 10px;
-            }
-
-            .header {
-                padding: 15px 10px;
-            }
-
-            .main-content {
-                padding: 12px 10px;
-                gap: 15px;
-            }
-
-            .form-section {
-                gap: 12px;
-            }
-
-            .form-group input, .form-group select, .form-group textarea {
-                padding: 10px 12px;
-                font-size: 12px;
-            }
-
-            .color-input {
-                padding: 6px 10px;
-                gap: 8px;
-                flex-wrap: nowrap;
-            }
-
-            .color-input input[type="color"] {
-                width: 35px;
-                height: 30px;
-                flex-shrink: 0;
-            }
-
-            .color-input input[type="text"] {
-                font-size: 11px;
-                padding: 4px;
-                min-width: 60px;
-            }
-
-            .generate-btn {
-                padding: 12px 14px;
-                font-size: 13px;
-                border-radius: 10px;
-            }
-
-            .placeholder {
-                width: 140px;
-                height: 140px;
-                font-size: 12px;
-            }
-
-            .code-tabs {
-                grid-template-columns: 1fr;
-                gap: 4px;
-            }
-
-            .code-tab {
-                padding: 8px;
-                font-size: 10px;
-            }
-
-            .api-section {
-                padding: 15px 10px;
-            }
-
-            .api-endpoint {
-                padding: 12px 10px;
-            }
-
-            .form-group label {
-                font-size: 13px;
-            }
-
-            .form-group label::before {
-                width: 3px;
-                height: 16px;
-            }
-        }
-
-        /* 超小屏幕额外优化 */
-        @media (max-width: 320px) {
-            .container {
-                border-radius: 8px;
-            }
-
-            .header {
-                padding: 12px 8px;
-            }
-
-            .main-content {
-                padding: 10px 8px;
-                gap: 12px;
-            }
-
-            .form-section {
-                gap: 10px;
-            }
-
-            .form-group {
-                gap: 6px;
-            }
-
-            .form-group input, .form-group select, .form-group textarea {
-                padding: 8px 10px;
-                font-size: 11px;
-                border-radius: 8px;
-            }
-
-            .color-input {
-                padding: 5px 8px;
-                gap: 6px;
-                border-radius: 10px;
-            }
-
-            .color-input input[type="color"] {
-                width: 30px;
-                height: 28px;
-                border-radius: 6px;
-            }
-
-            .color-input input[type="text"] {
-                font-size: 10px;
-                padding: 3px;
-                min-width: 50px;
-            }
-
-            .generate-btn {
-                padding: 10px 12px;
-                font-size: 12px;
-                border-radius: 8px;
-            }
-
-            .placeholder {
-                width: 120px;
-                height: 120px;
-                font-size: 11px;
-            }
-
-            .api-section {
-                padding: 12px 8px;
-            }
-
-            .api-endpoint {
-                padding: 10px 8px;
-            }
-
-            .form-group label {
-                font-size: 12px;
-            }
-
-            .download-btn {
-                padding: 8px 16px;
-                font-size: 11px;
             }
         }
 
@@ -1745,330 +1492,132 @@ BGCOLOR="ffffff"
 
 curl "https://yourdomain.com/qrcode?data=${URL}&size=${SIZE}&color=${COLOR}&bgcolor=${BGCOLOR}" \
   -o qrcode.png
-
-echo "二维码已保存为 qrcode.png"</code></pre>
-                </div>
-            </div>
-
-            <div class="api-endpoint">
-                <h3>💡 使用提示</h3>
-                <ul style="padding-left: 20px; margin: 15px 0; line-height: 1.6;">
-                    <li><strong>URL编码</strong>：确保data参数中的特殊字符进行URL编码</li>
-                    <li><strong>颜色格式</strong>：颜色参数使用6位十六进制代码，不包含#号</li>
-                    <li><strong>大小限制</strong>：推荐大小范围为100-1000像素</li>
-                    <li><strong>缓存机制</strong>：相同参数的请求会被缓存1小时</li>
-                    <li><strong>跨域支持</strong>：API支持CORS，可直接在浏览器中调用</li>
-                    <li><strong>容错级别</strong>：L=7%，M=15%，Q=25%，H=30%的容错率</li>
-                </ul>
-            </div>
+```
+</div>
         </div>
     </div>
 
+    <!-- 悬浮链接 -->
     <div class="floating-links">
-        <a href="https://github.com/thinkgin/qrcode" class="floating-link github" target="_blank">
-            <span class="icon">📂</span>
-            GitHub
+        <a href="https://github.com/thinkgin/qrcode" target="_blank" class="floating-link github">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://qrcode.thinkgin.com/" target="_blank" class="floating-link demo">
+            <i class="fas fa-globe"></i> 在线演示
         </a>
     </div>
 
     <script>
-        const form = document.getElementById('qrForm');
-        const urlInput = document.getElementById('urlInput');
-        const labelInput = document.getElementById('labelInput');
-        const sizeInput = document.getElementById('sizeInput');
-        const errorCorrectionInput = document.getElementById('errorCorrectionInput');
-        const foregroundColor = document.getElementById('foregroundColor');
-        const foregroundColorText = document.getElementById('foregroundColorText');
-        const backgroundColor = document.getElementById('backgroundColor');
-        const backgroundColorText = document.getElementById('backgroundColorText');
-        const marginInput = document.getElementById('marginInput');
-        const formatInput = document.getElementById('formatInput');
-        const generateBtn = document.getElementById('generateBtn');
-        const loading = document.getElementById('loading');
-        const error = document.getElementById('error');
-        const placeholder = document.getElementById('placeholder');
-        const qrImage = document.getElementById('qrImage');
-        const downloadBtn = document.getElementById('downloadBtn');
+        // 表单提交处理
+        document.getElementById('qrForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const url = document.getElementById('urlInput').value;
+            const label = document.getElementById('labelInput').value;
+            const size = document.getElementById('sizeInput').value;
+            const errorCorrection = document.getElementById('errorCorrectionInput').value;
+            const foregroundColor = document.getElementById('foregroundColor').value.slice(1);
+            const backgroundColor = document.getElementById('backgroundColor').value.slice(1);
+            const margin = document.getElementById('marginInput').value;
+            const format = document.getElementById('formatInput').value;
 
-        // 颜色输入同步
-        foregroundColor.addEventListener('input', () => {
-            foregroundColorText.value = foregroundColor.value;
-        });
+            const params = new URLSearchParams({
+                data: url,
+                size,
+                color: foregroundColor,
+                bgcolor: backgroundColor,
+                ecc: errorCorrection,
+                margin,
+                format,
+            });
 
-        foregroundColorText.addEventListener('input', () => {
-            if (/^#[0-9A-F]{6}$/i.test(foregroundColorText.value)) {
-                foregroundColor.value = foregroundColorText.value;
-            }
-        });
-
-        backgroundColor.addEventListener('input', () => {
-            backgroundColorText.value = backgroundColor.value;
-        });
-
-        backgroundColorText.addEventListener('input', () => {
-            if (/^#[0-9A-F]{6}$/i.test(backgroundColorText.value)) {
-                backgroundColor.value = backgroundColorText.value;
-            }
-        });
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const content = urlInput.value.trim();
-            if (!content) {
-                showError('请输入要生成二维码的内容');
-                return;
+            if (label) {
+                params.set('label', label);
             }
 
-            // 重置状态
-            hideError();
-            hideResult();
-            showLoading();
-            generateBtn.disabled = true;
+            const apiUrl = `/qrcode?${params.toString()}`;
+            document.getElementById('apiUrlDisplay').textContent = apiUrl;
+            document.getElementById('apiUrlSection').style.display = 'block';
 
             try {
-                // 构建参数
-                const params = new URLSearchParams({
-                    data: content,
-                    size: sizeInput.value,
-                    ecc: errorCorrectionInput.value,
-                    color: foregroundColorText.value.replace('#', ''),
-                    bgcolor: backgroundColorText.value.replace('#', ''),
-                    margin: marginInput.value,
-                    format: formatInput.value
-                });
-
-                // 添加标签参数
-                if (labelInput.value.trim()) {
-                    params.append('label', labelInput.value.trim());
-                }
-
-                const apiUrl = `/qrcode?${params.toString()}`;
                 const response = await fetch(apiUrl);
-
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(errorText || '二维码生成失败');
+                    throw new Error(await response.text());
                 }
-
                 const blob = await response.blob();
                 const imageUrl = URL.createObjectURL(blob);
-
-                showResult(imageUrl, window.location.origin + apiUrl);
-
-            } catch (err) {
-                showError(err.message);
+                document.getElementById('qrImage').src = imageUrl;
+                document.getElementById('placeholder').style.display = 'none';
+                document.getElementById('qrImage').style.display = 'block';
+                document.getElementById('downloadBtn').style.display = 'block';
+                document.getElementById('error').textContent = '';
+            } catch (error) {
+                console.error('生成二维码失败:', error);
+                document.getElementById('error').textContent = '生成二维码失败: ' + error.message;
+                document.getElementById('placeholder').style.display = 'block';
+                document.getElementById('qrImage').style.display = 'none';
+                document.getElementById('downloadBtn').style.display = 'none';
             } finally {
-                hideLoading();
-                generateBtn.disabled = false;
+                document.getElementById('loading').style.display = 'none';
             }
         });
 
-        function showLoading() {
-            loading.style.display = 'block';
-            placeholder.style.display = 'none';
-            qrImage.style.display = 'none';
-            downloadBtn.style.display = 'none';
-        }
-
-        function hideLoading() {
-            loading.style.display = 'none';
-        }
-
-        function showResult(imageUrl, apiUrl) {
-            placeholder.style.display = 'none';
-            qrImage.src = imageUrl;
-            qrImage.style.display = 'block';
-            downloadBtn.style.display = 'block';
-
-            // 设置下载功能
-            downloadBtn.onclick = () => {
-                const a = document.createElement('a');
-                a.href = imageUrl;
-                a.download = `qrcode-${Date.now()}.${formatInput.value}`;
-                a.click();
-            };
-
-            // 显示完整的API URL
-            const apiUrlDisplay = document.getElementById('apiUrlDisplay');
-            const apiUrlSection = document.getElementById('apiUrlSection');
-            apiUrlDisplay.textContent = apiUrl;
-            apiUrlSection.style.display = 'block';
-        }
-
-        function hideResult() {
-            qrImage.style.display = 'none';
-            downloadBtn.style.display = 'none';
-            placeholder.style.display = 'flex';
-            document.getElementById('apiUrlSection').style.display = 'none';
-        }
-
-        function showError(message) {
-            error.textContent = message;
-            error.style.display = 'block';
-        }
-
-        function hideError() {
-            error.style.display = 'none';
-        }
-
-        // 示例内容
-        const examples = [
-            'https://www.baidu.com',
-            'https://www.github.com',
-            '你好世界！',
-            'Hello World!'
-        ];
-
-        urlInput.addEventListener('focus', () => {
-            if (!urlInput.value) {
-                urlInput.placeholder = examples[Math.floor(Math.random() * examples.length)];
-            }
+        // 下载二维码
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const imageUrl = document.getElementById('qrImage').src;
+            const a = document.createElement('a');
+            a.href = imageUrl;
+            a.download = 'qrcode.png';
+            a.click();
         });
 
-        // API 文档相关功能
-        function showCode(language) {
-            // 隐藏所有代码块
-            document.querySelectorAll('.code-content').forEach(content => {
-                content.classList.remove('active');
-            });
-
-            // 移除所有标签的active状态
-            document.querySelectorAll('.code-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            // 显示选中的代码块
-            document.getElementById(language).classList.add('active');
-
-            // 激活选中的标签
-            event.target.classList.add('active');
-        }
-
-        function copyCode(language) {
-            const codeBlock = document.querySelector(`#${language} pre code`);
-            if (!codeBlock) {
-                console.error('找不到代码块:', language);
-                return;
-            }
-
-            const text = codeBlock.textContent;
-
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    const btn = document.querySelector(`#${language} .copy-btn`);
-                    if (btn) {
-                        const originalText = btn.textContent;
-                        btn.textContent = '已复制!';
-                        btn.style.background = '#48bb78';
-
-                        setTimeout(() => {
-                            btn.textContent = originalText;
-                            btn.style.background = '#4a5568';
-                        }, 2000);
-                    }
-                }).catch(err => {
-                    console.error('复制失败:', err);
-                    // 降级到传统复制方法
-                    fallbackCopyTextToClipboard(text, language);
-                });
-            } else {
-                // 降级到传统复制方法
-                fallbackCopyTextToClipboard(text, language);
-            }
-        }
-
-        function fallbackCopyTextToClipboard(text, language) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            textArea.style.top = "-999999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    const btn = document.querySelector(`#${language} .copy-btn`);
-                    if (btn) {
-                        const originalText = btn.textContent;
-                        btn.textContent = '已复制!';
-                        btn.style.background = '#48bb78';
-
-                        setTimeout(() => {
-                            btn.textContent = originalText;
-                            btn.style.background = '#4a5568';
-                        }, 2000);
-                    }
-                } else {
-                    console.error('降级复制方法失败');
-                }
-            } catch (err) {
-                console.error('降级复制方法出错:', err);
-            }
-
-            document.body.removeChild(textArea);
-        }
-
+        // 复制API URL
         function copyApiUrl() {
             const apiUrl = document.getElementById('apiUrlDisplay').textContent;
-
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(apiUrl).then(() => {
-                    const btn = document.querySelector('.copy-url-btn');
-                    if (btn) {
-                        const originalText = btn.textContent;
-                        btn.textContent = '已复制!';
-                        btn.style.background = '#48bb78';
-
-                        setTimeout(() => {
-                            btn.textContent = originalText;
-                            btn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-                        }, 2000);
-                    }
-                }).catch(err => {
-                    console.error('复制失败:', err);
-                    fallbackCopyApiUrl(apiUrl);
-                });
-            } else {
-                fallbackCopyApiUrl(apiUrl);
-            }
+            const tempInput = document.createElement('input');
+            tempInput.value = apiUrl;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('API URL已复制到剪贴板');
         }
 
-        function fallbackCopyApiUrl(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            textArea.style.top = "-999999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
+        // 代码示例切换
+        function showCode(language) {
+            const codeBlocks = document.querySelectorAll('.code-content');
+            codeBlocks.forEach(block => {
+                block.style.display = 'none';
+            });
+            document.getElementById(language).style.display = 'block';
 
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    const btn = document.querySelector('.copy-url-btn');
-                    if (btn) {
-                        const originalText = btn.textContent;
-                        btn.textContent = '已复制!';
-                        btn.style.background = '#48bb78';
+            const tabs = document.querySelectorAll('.code-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.code-tab[onclick="showCode('${language}')"]`).classList.add('active');
+        }
 
-                        setTimeout(() => {
-                            btn.textContent = originalText;
-                            btn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-                        }, 2000);
-                    }
+        // 复制代码
+        function copyCode(language) {
+            const codeBlock = document.querySelector(`#${language} pre code`);
+            if (codeBlock) {
+                const range = document.createRange();
+                range.selectNode(codeBlock);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                try {
+                    document.execCommand('copy');
+                    alert('代码已复制到剪贴板');
+                } catch (err) {
+                    console.error('无法复制代码: ', err);
                 }
-            } catch (err) {
-                console.error('降级复制方法出错:', err);
+                window.getSelection().removeAllRanges();
+            } else {
+                console.error('未找到代码块');
             }
-
-            document.body.removeChild(textArea);
         }
     </script>
 </body>
-
 </html>
+
+echo "二维码已保存为 qrcode.png"</code></pre>
