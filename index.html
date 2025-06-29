@@ -15,57 +15,117 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
         }
 
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
             background: white;
-            padding: 40px;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
+        .header h1 {
             font-size: 2.5rem;
             font-weight: 700;
-        }
-
-        .input-group {
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
             margin-bottom: 10px;
-            color: #555;
-            font-weight: 500;
-            text-align: left;
         }
 
-        input[type="url"] {
-            width: 100%;
-            padding: 15px;
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
             border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 14px;
             transition: all 0.3s ease;
             outline: none;
         }
 
-        input[type="url"]:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        button {
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .radio-item input[type="radio"] {
+            margin: 0;
+            width: auto;
+        }
+
+        .color-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-input input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .generate-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
@@ -75,60 +135,72 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
+            margin-top: 20px;
         }
 
-        button:hover {
+        .generate-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        button:disabled {
+        .generate-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
 
-        .result {
-            margin-top: 30px;
-            padding: 20px;
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             background: #f8f9fa;
             border-radius: 15px;
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .qr-preview {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
             display: none;
         }
 
-        .qr-image {
-            max-width: 100%;
+        .placeholder {
+            width: 200px;
+            height: 200px;
+            border: 3px dashed #ddd;
             border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 16px;
+            text-align: center;
         }
 
         .download-btn {
             background: #28a745;
-            margin-top: 15px;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
             font-size: 14px;
-            padding: 10px 20px;
-            width: auto;
-            display: inline-block;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
         }
 
         .download-btn:hover {
             background: #218838;
         }
 
-        .error {
-            color: #dc3545;
-            margin-top: 15px;
-            padding: 10px;
-            background: #f8d7da;
-            border-radius: 5px;
-            display: none;
-        }
-
         .loading {
             display: none;
-            margin-top: 20px;
+            text-align: center;
         }
 
         .spinner {
@@ -138,103 +210,306 @@
             border-top: 4px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            margin: 0 auto 15px;
+        }
+
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🔲 二维码生成器</h1>
-
-        <form id="qrForm">
-            <div class="input-group">
-                <label for="urlInput">请输入要生成二维码的网址：</label>
-                <input
-                    type="url"
-                    id="urlInput"
-                    placeholder="https://example.com"
-                    required
-                >
-            </div>
-            <button type="submit" id="generateBtn">生成二维码</button>
-        </form>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>正在生成二维码...</p>
+        <div class="header">
+            <h1>🔲 二维码生成器</h1>
+            <p>功能强大的二维码生成工具，支持多种自定义选项</p>
         </div>
 
-        <div class="error" id="error"></div>
+        <div class="main-content">
+            <!-- 左侧：参数设置 -->
+            <div class="form-section">
+                <form id="qrForm">
+                    <div class="form-group">
+                        <label for="urlInput">文本内容 *</label>
+                        <textarea
+                            id="urlInput"
+                            placeholder="请输入网址、文本或其他内容..."
+                            rows="3"
+                            required
+                        ></textarea>
+                    </div>
 
-        <div class="result" id="result">
-            <img id="qrImage" class="qr-image" alt="生成的二维码">
-            <p>扫描上方二维码或右键保存图片</p>
-            <button class="download-btn" id="downloadBtn">下载二维码</button>
+                    <div class="form-group">
+                        <label for="labelInput">标签</label>
+                        <input
+                            type="text"
+                            id="labelInput"
+                            placeholder="可选的标签文字"
+                        >
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>二维码大小</label>
+                            <select id="sizeInput">
+                                <option value="200">200x200</option>
+                                <option value="300" selected>300x300</option>
+                                <option value="400">400x400</option>
+                                <option value="500">500x500</option>
+                                <option value="600">600x600</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>容错级别</label>
+                            <select id="errorCorrectionInput">
+                                <option value="L">低 (L)</option>
+                                <option value="M" selected>中 (M)</option>
+                                <option value="Q">高 (Q)</option>
+                                <option value="H">最高 (H)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>前景色</label>
+                        <div class="color-input">
+                            <input type="color" id="foregroundColor" value="#000000">
+                            <input type="text" id="foregroundColorText" value="#000000" placeholder="#000000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>背景色</label>
+                        <div class="color-input">
+                            <input type="color" id="backgroundColor" value="#ffffff">
+                            <input type="text" id="backgroundColorText" value="#ffffff" placeholder="#ffffff">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>内边距</label>
+                            <select id="marginInput">
+                                <option value="0">无边距</option>
+                                <option value="1" selected>小边距</option>
+                                <option value="2">中边距</option>
+                                <option value="3">大边距</option>
+                                <option value="4">超大边距</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>图片格式</label>
+                            <select id="formatInput">
+                                <option value="png" selected>PNG</option>
+                                <option value="jpg">JPG</option>
+                                <option value="gif">GIF</option>
+                                <option value="svg">SVG</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="generate-btn" id="generateBtn">
+                        生成二维码
+                    </button>
+                </form>
+
+                <div class="error" id="error"></div>
+            </div>
+
+            <!-- 右侧：预览区域 -->
+            <div class="preview-section">
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>正在生成二维码...</p>
+                </div>
+
+                <div class="placeholder" id="placeholder">
+                    填写左侧参数后点击生成
+                </div>
+
+                <img id="qrImage" class="qr-preview" alt="生成的二维码">
+
+                <button class="download-btn" id="downloadBtn">
+                    📥 下载二维码
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
         const form = document.getElementById('qrForm');
         const urlInput = document.getElementById('urlInput');
+        const labelInput = document.getElementById('labelInput');
+        const sizeInput = document.getElementById('sizeInput');
+        const errorCorrectionInput = document.getElementById('errorCorrectionInput');
+        const foregroundColor = document.getElementById('foregroundColor');
+        const foregroundColorText = document.getElementById('foregroundColorText');
+        const backgroundColor = document.getElementById('backgroundColor');
+        const backgroundColorText = document.getElementById('backgroundColorText');
+        const marginInput = document.getElementById('marginInput');
+        const formatInput = document.getElementById('formatInput');
         const generateBtn = document.getElementById('generateBtn');
         const loading = document.getElementById('loading');
         const error = document.getElementById('error');
-        const result = document.getElementById('result');
+        const placeholder = document.getElementById('placeholder');
         const qrImage = document.getElementById('qrImage');
         const downloadBtn = document.getElementById('downloadBtn');
+
+        // 颜色输入同步
+        foregroundColor.addEventListener('input', () => {
+            foregroundColorText.value = foregroundColor.value;
+        });
+
+        foregroundColorText.addEventListener('input', () => {
+            if (/^#[0-9A-F]{6}$/i.test(foregroundColorText.value)) {
+                foregroundColor.value = foregroundColorText.value;
+            }
+        });
+
+        backgroundColor.addEventListener('input', () => {
+            backgroundColorText.value = backgroundColor.value;
+        });
+
+        backgroundColorText.addEventListener('input', () => {
+            if (/^#[0-9A-F]{6}$/i.test(backgroundColorText.value)) {
+                backgroundColor.value = backgroundColorText.value;
+            }
+        });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const url = urlInput.value.trim();
-            if (!url) return;
+            const content = urlInput.value.trim();
+            if (!content) {
+                showError('请输入要生成二维码的内容');
+                return;
+            }
 
             // 重置状态
-            error.style.display = 'none';
-            result.style.display = 'none';
-            loading.style.display = 'block';
+            hideError();
+            hideResult();
+            showLoading();
             generateBtn.disabled = true;
 
             try {
-                const response = await fetch(`/qrcode?url=${encodeURIComponent(url)}`);
+                // 构建参数
+                const params = new URLSearchParams({
+                    data: content,
+                    size: sizeInput.value,
+                    ecc: errorCorrectionInput.value,
+                    color: foregroundColorText.value.replace('#', ''),
+                    bgcolor: backgroundColorText.value.replace('#', ''),
+                    margin: marginInput.value,
+                    format: formatInput.value
+                });
+
+                // 添加标签
+                if (labelInput.value.trim()) {
+                    params.append('qzone', '1');
+                    params.append('download', '1');
+                }
+
+                const response = await fetch(`/qrcode?${params.toString()}`);
 
                 if (!response.ok) {
-                    throw new Error(await response.text());
+                    const errorText = await response.text();
+                    throw new Error(errorText || '二维码生成失败');
                 }
 
                 const blob = await response.blob();
                 const imageUrl = URL.createObjectURL(blob);
 
-                qrImage.src = imageUrl;
-                result.style.display = 'block';
-
-                // 设置下载功能
-                downloadBtn.onclick = () => {
-                    const a = document.createElement('a');
-                    a.href = imageUrl;
-                    a.download = `qrcode-${Date.now()}.png`;
-                    a.click();
-                };
+                showResult(imageUrl);
 
             } catch (err) {
-                error.textContent = err.message;
-                error.style.display = 'block';
+                showError(err.message);
             } finally {
-                loading.style.display = 'none';
+                hideLoading();
                 generateBtn.disabled = false;
             }
         });
 
-        // 示例网址
+        function showLoading() {
+            loading.style.display = 'block';
+            placeholder.style.display = 'none';
+            qrImage.style.display = 'none';
+            downloadBtn.style.display = 'none';
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        function showResult(imageUrl) {
+            placeholder.style.display = 'none';
+            qrImage.src = imageUrl;
+            qrImage.style.display = 'block';
+            downloadBtn.style.display = 'block';
+
+            // 设置下载功能
+            downloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = imageUrl;
+                a.download = `qrcode-${Date.now()}.${formatInput.value}`;
+                a.click();
+            };
+        }
+
+        function hideResult() {
+            qrImage.style.display = 'none';
+            downloadBtn.style.display = 'none';
+            placeholder.style.display = 'flex';
+        }
+
+        function showError(message) {
+            error.textContent = message;
+            error.style.display = 'block';
+        }
+
+        function hideError() {
+            error.style.display = 'none';
+        }
+
+        // 示例内容
         const examples = [
+            'https://www.fastadmin.net',
             'https://www.baidu.com',
             'https://www.github.com',
-            'https://www.google.com'
+            '你好世界！',
+            'Hello World!'
         ];
 
         urlInput.addEventListener('focus', () => {
