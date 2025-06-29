@@ -1,0 +1,6 @@
+name = "qrcode-generator"
+compatibility_date = "2023-06-07"
+
+[env.production]
+account_id = "你的账户ID"
+zone_id = "你的域名区域ID"
