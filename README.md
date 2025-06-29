@@ -4,7 +4,7 @@
 
 ## 🌐 在线演示
 
-**在线演示地址：** [https://qrcode.thinkgin.com/](https://qrcode.thinkgin.com/)
+**在线演示地址：** [https://qr-code.thinkgin.com/](https://qr-code.thinkgin.com/)
 
 **GitHub 仓库：** [https://github.com/thinkgin/qrcode](https://github.com/thinkgin/qrcode)
 
@@ -23,16 +23,16 @@
 
 ### 在线使用
 
-直接访问 [https://qrcode.thinkgin.com/](https://qrcode.thinkgin.com/) 即可在线生成二维码。
+直接访问 [https://qr-code.thinkgin.com/](https://qr-code.thinkgin.com/) 即可在线生成二维码。
 
 ### API 调用
 
 ```bash
 # 基本用法
-curl "https://qrcode.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
+curl "https://qr-code.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
 
 # 带参数的完整示例
-curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png" -o qrcode.png
+curl "https://qr-code.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png" -o qrcode.png
 ```
 
 ## 📋 API 参数
@@ -53,7 +53,7 @@ curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF000
 ### 基本用法
 
 ```
-GET https://qrcode.thinkgin.com/qrcode?data={content}&size={size}&color={color}&bgcolor={bgcolor}&ecc={level}&margin={margin}&format={format}&label={label}
+GET https://qr-code.thinkgin.com/qrcode?data={content}&size={size}&color={color}&bgcolor={bgcolor}&ecc={level}&margin={margin}&format={format}&label={label}
 ```
 
 ### 返回说明
@@ -65,13 +65,13 @@ GET https://qrcode.thinkgin.com/qrcode?data={content}&size={size}&color={color}&
 
 ```bash
 # 基本用法
-curl "https://qrcode.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
+curl "https://qr-code.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
 
 # 完整参数示例
-curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png&label=我的二维码" -o qrcode.png
+curl "https://qr-code.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png&label=我的二维码" -o qrcode.png
 
 # 生成SVG格式
-curl "https://qrcode.thinkgin.com/qrcode?data=https://github.com&format=svg" -o qrcode.svg
+curl "https://qr-code.thinkgin.com/qrcode?data=https://github.com&format=svg" -o qrcode.svg
 ```
 
 ## 💻 代码示例
@@ -91,7 +91,7 @@ async function generateQRCode() {
   });
 
   const response = await fetch(
-    `https://qrcode.thinkgin.com/qrcode?${params.toString()}`
+    `https://qr-code.thinkgin.com/qrcode?${params.toString()}`
   );
   const blob = await response.blob();
   const imageUrl = URL.createObjectURL(blob);
@@ -120,7 +120,7 @@ def generate_qrcode():
         'format': 'png'
     }
 
-    url = f"https://qrcode.thinkgin.com/qrcode?{urlencode(params)}"
+    url = f"https://qr-code.thinkgin.com/qrcode?{urlencode(params)}"
     response = requests.get(url)
 
     with open('qrcode.png', 'wb') as f:
@@ -149,7 +149,7 @@ function generateQRCode() {
     format: "png",
   });
 
-  const url = `https://qrcode.thinkgin.com/qrcode?${params.toString()}`;
+  const url = `https://qr-code.thinkgin.com/qrcode?${params.toString()}`;
   const file = fs.createWriteStream("qrcode.png");
 
   https.get(url, (response) => {
@@ -179,7 +179,7 @@ function generateQRCode() {
         'format' => 'png'
     ]);
 
-    $url = "https://qrcode.thinkgin.com/qrcode?" . $params;
+    $url = "https://qr-code.thinkgin.com/qrcode?" . $params;
 
     $context = stream_context_create([
         'http' => [
@@ -225,7 +225,7 @@ func generateQRCode() error {
     params.Set("margin", "1")
     params.Set("format", "png")
 
-    apiURL := "https://qrcode.thinkgin.com/qrcode?" + params.Encode()
+    apiURL := "https://qr-code.thinkgin.com/qrcode?" + params.Encode()
 
     resp, err := http.Get(apiURL)
     if err != nil {
@@ -392,7 +392,7 @@ qrcode/
 
 ## 🔗 相关链接
 
-- **在线演示**: [https://qrcode.thinkgin.com/](https://qrcode.thinkgin.com/)
+- **在线演示**: [https://qr-code.thinkgin.com/](https://qr-code.thinkgin.com/)
 - **GitHub 仓库**: [https://github.com/thinkgin/qrcode](https://github.com/thinkgin/qrcode)
 - **Cloudflare Pages**: [https://pages.cloudflare.com/](https://pages.cloudflare.com/)
 - **Cloudflare Functions**: [https://developers.cloudflare.com/pages/functions/](https://developers.cloudflare.com/pages/functions/)

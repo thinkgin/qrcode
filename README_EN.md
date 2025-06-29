@@ -4,7 +4,7 @@ A powerful online QR code generation tool with extensive customization options a
 
 ## 🌐 Live Demo
 
-**Live Demo:** [https://qrcode.thinkgin.com/](https://qrcode.thinkgin.com/)
+**Live Demo:** [https://qr-code.thinkgin.com/](https://qr-code.thinkgin.com/)
 
 **GitHub Repository:** [https://github.com/thinkgin/qrcode](https://github.com/thinkgin/qrcode)
 
@@ -23,16 +23,16 @@ A powerful online QR code generation tool with extensive customization options a
 
 ### Online Usage
 
-Visit [https://qrcode.thinkgin.com/](https://qrcode.thinkgin.com/) to generate QR codes online.
+Visit [https://qr-code.thinkgin.com/](https://qr-code.thinkgin.com/) to generate QR codes online.
 
 ### API Usage
 
 ```bash
 # Basic usage
-curl "https://qrcode.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
+curl "https://qr-code.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
 
 # Full parameters example
-curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png&label=My%20QR%20Code" -o qrcode.png
+curl "https://qr-code.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png&label=My%20QR%20Code" -o qrcode.png
 ```
 
 ## 📋 API Parameters
@@ -53,7 +53,7 @@ curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF000
 ### Basic Usage
 
 ```
-GET https://qrcode.thinkgin.com/qrcode?data={content}&size={size}&color={color}&bgcolor={bgcolor}&ecc={level}&margin={margin}&format={format}&label={label}
+GET https://qr-code.thinkgin.com/qrcode?data={content}&size={size}&color={color}&bgcolor={bgcolor}&ecc={level}&margin={margin}&format={format}&label={label}
 ```
 
 ### Response
@@ -65,13 +65,13 @@ GET https://qrcode.thinkgin.com/qrcode?data={content}&size={size}&color={color}&
 
 ```bash
 # Basic usage
-curl "https://qrcode.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
+curl "https://qr-code.thinkgin.com/qrcode?data=https://example.com" -o qrcode.png
 
 # Complete parameters example
-curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png&label=My%20QR%20Code" -o qrcode.png
+curl "https://qr-code.thinkgin.com/qrcode?data=Hello%20World&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png&label=My%20QR%20Code" -o qrcode.png
 
 # Generate SVG format
-curl "https://qrcode.thinkgin.com/qrcode?data=https://github.com&format=svg" -o qrcode.svg
+curl "https://qr-code.thinkgin.com/qrcode?data=https://github.com&format=svg" -o qrcode.svg
 ```
 
 ## 💻 Code Examples
@@ -91,7 +91,7 @@ async function generateQRCode() {
   });
 
   const response = await fetch(
-    `https://qrcode.thinkgin.com/qrcode?${params.toString()}`
+    `https://qr-code.thinkgin.com/qrcode?${params.toString()}`
   );
   const blob = await response.blob();
   const imageUrl = URL.createObjectURL(blob);
@@ -120,7 +120,7 @@ def generate_qrcode():
         'format': 'png'
     }
 
-    url = f"https://qrcode.thinkgin.com/qrcode?{urlencode(params)}"
+    url = f"https://qr-code.thinkgin.com/qrcode?{urlencode(params)}"
     response = requests.get(url)
 
     with open('qrcode.png', 'wb') as f:
@@ -149,7 +149,7 @@ function generateQRCode() {
     format: "png",
   });
 
-  const url = `https://qrcode.thinkgin.com/qrcode?${params.toString()}`;
+  const url = `https://qr-code.thinkgin.com/qrcode?${params.toString()}`;
   const file = fs.createWriteStream("qrcode.png");
 
   https.get(url, (response) => {
@@ -179,7 +179,7 @@ function generateQRCode() {
         'format' => 'png'
     ]);
 
-    $url = "https://qrcode.thinkgin.com/qrcode?" . $params;
+    $url = "https://qr-code.thinkgin.com/qrcode?" . $params;
 
     $context = stream_context_create([
         'http' => [
@@ -225,7 +225,7 @@ func generateQRCode() error {
     params.Set("margin", "1")
     params.Set("format", "png")
 
-    apiURL := "https://qrcode.thinkgin.com/qrcode?" + params.Encode()
+    apiURL := "https://qr-code.thinkgin.com/qrcode?" + params.Encode()
 
     resp, err := http.Get(apiURL)
     if err != nil {
@@ -263,15 +263,15 @@ func main() {
 
 ```bash
 # Basic usage
-curl "https://qrcode.thinkgin.com/qrcode?data=https://example.com" \
+curl "https://qr-code.thinkgin.com/qrcode?data=https://example.com" \
   -o qrcode.png
 
 # Complete parameters example
-curl "https://qrcode.thinkgin.com/qrcode?data=https://example.com&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png" \
+curl "https://qr-code.thinkgin.com/qrcode?data=https://example.com&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png" \
   -o qrcode.png
 
 # Generate SVG format
-curl "https://qrcode.thinkgin.com/qrcode?data=Hello%20World&format=svg" \
+curl "https://qr-code.thinkgin.com/qrcode?data=Hello%20World&format=svg" \
   -o qrcode.svg
 
 # Using variables
@@ -280,7 +280,7 @@ SIZE="500"
 COLOR="000000"
 BGCOLOR="ffffff"
 
-curl "https://qrcode.thinkgin.com/qrcode?data=${URL}&size=${SIZE}&color=${COLOR}&bgcolor=${BGCOLOR}" \
+curl "https://qr-code.thinkgin.com/qrcode?data=${URL}&size=${SIZE}&color=${COLOR}&bgcolor=${BGCOLOR}" \
   -o qrcode.png
 
 echo "QR code saved as qrcode.png"
@@ -421,7 +421,7 @@ This project is open source under the [MIT License](LICENSE).
 
 ## 🔗 Related Links
 
-- **Live Demo**: [https://qrcode.thinkgin.com/](https://qrcode.thinkgin.com/)
+- **Live Demo**: [https://qr-code.thinkgin.com/](https://qr-code.thinkgin.com/)
 - **GitHub Repository**: [https://github.com/thinkgin/qrcode](https://github.com/thinkgin/qrcode)
 - **Cloudflare Pages**: [https://pages.cloudflare.com/](https://pages.cloudflare.com/)
 - **Cloudflare Functions**: [https://developers.cloudflare.com/pages/functions/](https://developers.cloudflare.com/pages/functions/)
