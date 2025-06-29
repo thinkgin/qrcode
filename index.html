@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二维码生成器 - 免费在线二维码生成工具 | QR Code Generator</title>
 
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="免费在线二维码生成器，支持文本、网址、联系人等多种格式，可自定义颜色、大小、容错级别。支持PNG、JPEG、SVG格式下载。Professional QR Code Generator with API support.">
-    <meta name="keywords" content="二维码生成器, QR码生成, 二维码制作, 免费二维码, 在线二维码, QR Code Generator, QR Code API, 二维码API">
-    <meta name="author" content="QR Code Generator">
-
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="二维码生成器 - 免费在线二维码生成工具">
-    <meta property="og:description" content="免费在线二维码生成器，支持多种格式和自定义选项">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://qrcode.thinkgin.com/">
-    <meta property="og:image" content="https://qrcode.thinkgin.com/icon.png">
-
-    <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="二维码生成器 - 免费在线二维码生成工具">
-    <meta name="twitter:description" content="免费在线二维码生成器，支持多种格式和自定义选项">
-    <meta name="twitter:image" content="https://qrcode.thinkgin.com/icon.png">
-
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
 
-    <!-- Web App Manifest -->
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="免费在线二维码生成器，支持文本、URL、多种颜色、尺寸自定义。提供完整API接口，支持多种编程语言调用。基于Cloudflare Pages，全球加速访问。">
+    <meta name="keywords" content="二维码生成器,QR码生成,二维码API,在线二维码,免费二维码,QR Code Generator,二维码工具,条码生成器,二维码制作">
+    <meta name="author" content="ThinkGin">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="zh-CN">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="二维码生成器 - 免费在线二维码生成工具">
+    <meta property="og:description" content="功能强大的在线二维码生成工具，支持多种自定义选项和API调用。">
+    <meta property="og:url" content="https://qrcode.thinkgin.com/">
+    <meta property="og:image" content="https://qrcode.thinkgin.com/icon.png">
+    <meta property="og:site_name" content="二维码生成器">
+    <meta property="og:locale" content="zh_CN">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="二维码生成器 - 免费在线二维码生成工具">
+    <meta name="twitter:description" content="功能强大的在线二维码生成工具，支持多种自定义选项和API调用。">
+    <meta name="twitter:image" content="https://qrcode.thinkgin.com/icon.png">
+
+    <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#667eea">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="二维码生成器">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://qrcode.thinkgin.com/">
@@ -43,301 +49,135 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 70%, #f5576c 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            25% { background-position: 100% 50%; }
-            50% { background-position: 100% 100%; }
-            75% { background-position: 0% 100%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* 背景装饰 */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(2deg); }
-        }
-
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            padding: 40px 20px 20px;
-            color: white;
-        }
-
-        .header h1 {
-            font-size: clamp(2.5rem, 7vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 15px;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 255, 255, 0.2);
-            letter-spacing: -1px;
-        }
-
-        .header p {
-            font-size: clamp(1.1rem, 4vw, 1.4rem);
-            opacity: 0.95;
-            font-weight: 400;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .main-container {
-            flex: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
             padding: 20px;
         }
 
-        .content-wrapper {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(30px);
-            border-radius: 30px;
-            padding: 50px;
-            box-shadow:
-                0 40px 80px rgba(0, 0, 0, 0.15),
-                0 20px 40px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: slideInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(80px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
         }
 
-        .content-wrapper::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.03), transparent);
-            animation: rotateGlow 30s linear infinite;
-            pointer-events: none;
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
-        @keyframes rotateGlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
         }
 
         .main-content {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 50px;
-            align-items: start;
-            position: relative;
-            z-index: 1;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
         }
 
         .form-section {
             display: flex;
             flex-direction: column;
-            gap: 25px;
-        }
-
-        .preview-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            background:
-                linear-gradient(135deg, rgba(248, 249, 250, 0.8), rgba(255, 255, 255, 0.9)),
-                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(0,0,0,0.01) 20px, rgba(0,0,0,0.01) 40px);
-            border-radius: 25px;
-            padding: 40px;
-            min-height: 600px;
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            box-shadow:
-                inset 0 1px 3px rgba(0, 0, 0, 0.05),
-                0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: sticky;
-            top: 20px;
+            gap: 20px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 5px;
+            gap: 8px;
         }
 
         .form-group label {
-            font-weight: 700;
+            font-weight: 600;
             color: #333;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 14px;
         }
 
-        .form-group label::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 2px;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            padding: 18px 20px;
-            border: 2px solid rgba(225, 229, 233, 0.8);
-            border-radius: 16px;
-            font-size: 16px;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            outline: none;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), inset 0 1px 3px rgba(0, 0, 0, 0.05);
-            font-family: inherit;
-        }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 8px 30px rgba(102, 126, 234, 0.15);
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 1);
-        }
-
+        .form-group input,
+        .form-group select,
         .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-            font-family: inherit;
-            line-height: 1.6;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .radio-item input[type="radio"] {
+            margin: 0;
+            width: auto;
         }
 
         .color-input {
             display: flex;
             align-items: center;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px 20px;
-            border-radius: 16px;
-            border: 2px solid rgba(225, 229, 233, 0.8);
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .color-input:focus-within {
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 8px 30px rgba(102, 126, 234, 0.15);
-            transform: translateY(-3px);
+            gap: 10px;
         }
 
         .color-input input[type="color"] {
-            width: 60px;
-            height: 50px;
-            border: 3px solid #fff;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .color-input input[type="color"]:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .color-input input[type="text"] {
+            width: 50px;
+            height: 40px;
             border: none;
-            background: transparent;
-            padding: 10px;
-            flex: 1;
-            font-family: 'Monaco', 'Consolas', monospace;
-            font-size: 14px;
-            box-shadow: none;
-        }
-
-        .color-input input[type="text"]:focus {
-            transform: none;
-            box-shadow: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .generate-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 22px 45px;
-            border-radius: 18px;
-            font-size: 18px;
-            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            margin-top: 30px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4), 0 6px 20px rgba(102, 126, 234, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: inherit;
-        }
-
-        .generate-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .generate-btn:hover::before {
-            left: 100%;
+            transition: all 0.3s ease;
+            margin-top: 20px;
         }
 
         .generate-btn:hover:not(:disabled) {
-            transform: translateY(-5px);
-            box-shadow: 0 18px 45px rgba(102, 126, 234, 0.5), 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        .generate-btn:active {
             transform: translateY(-2px);
-            transition: transform 0.1s;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
         .generate-btn:disabled {
@@ -346,585 +186,1084 @@
             transform: none;
         }
 
-        .qr-preview {
-            max-width: 100%;
-            max-height: 350px;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 12px 25px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            display: none;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 4px solid rgba(255, 255, 255, 0.9);
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 500px;
         }
 
-        .qr-preview:hover {
-            transform: scale(1.05);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25), 0 15px 30px rgba(0, 0, 0, 0.15);
+        .qr-preview {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: none;
         }
 
         .placeholder {
-            width: 280px;
-            height: 280px;
-            border: 3px dashed rgba(153, 153, 153, 0.4);
-            border-radius: 20px;
+            width: 200px;
+            height: 200px;
+            border: 3px dashed #ddd;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
+            color: #999;
             font-size: 16px;
             text-align: center;
-            background:
-                linear-gradient(45deg, rgba(248, 249, 250, 0.8), rgba(255, 255, 255, 0.9)),
-                repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(0,0,0,0.02) 15px, rgba(0,0,0,0.02) 30px);
-            animation: breathe 4s ease-in-out infinite;
-            font-weight: 500;
-            margin-bottom: 30px;
         }
 
-        @keyframes breathe {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); }
+        .download-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+            margin-right: 10px;
         }
 
-        .placeholder-content {
-            text-align: center;
-        }
-
-        .placeholder-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            opacity: 0.7;
-        }
-
-        .placeholder-text {
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 8px;
-        }
-
-        .placeholder-hint {
-            font-size: 12px;
-            opacity: 0.6;
-            margin-top: 10px;
+        .download-btn:hover {
+            background: #218838;
         }
 
         .loading {
             display: none;
             text-align: center;
-            margin-bottom: 30px;
         }
 
         .spinner {
-            width: 70px;
-            height: 70px;
-            border: 6px solid rgba(243, 243, 243, 0.3);
-            border-top: 6px solid #667eea;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
             border-radius: 50%;
-            animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-            margin: 0 auto 25px;
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            color: #667eea;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-
-        .download-btn {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            border: none;
-            padding: 16px 30px;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            display: none;
-            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4), 0 5px 15px rgba(40, 167, 69, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-family: inherit;
-        }
-
-        .download-btn:hover {
-            background: linear-gradient(135deg, #218838, #1ba883);
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(40, 167, 69, 0.5), 0 8px 25px rgba(40, 167, 69, 0.3);
-        }
-
-        .api-url-section {
-            width: 100%;
-            display: none;
-            background:
-                linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(255, 255, 255, 0.9)),
-                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 40px);
-            border-radius: 18px;
-            padding: 25px;
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(233, 236, 239, 0.6);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 25px rgba(0, 0, 0, 0.05);
-        }
-
-        .api-url-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .api-url-container {
-            position: relative;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid rgba(233, 236, 239, 0.8);
-            border-radius: 14px;
-            padding: 20px;
-            font-family: 'Monaco', 'Consolas', monospace;
-            font-size: 13px;
-            word-break: break-all;
-            line-height: 1.6;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
-            max-height: 150px;
-            overflow-y: auto;
-        }
-
-        .copy-url-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 12px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .copy-url-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
         }
 
         .error {
             color: #dc3545;
-            background:
-                linear-gradient(135deg, rgba(248, 215, 218, 0.95), rgba(248, 215, 218, 0.8)),
-                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(220, 53, 69, 0.05) 20px, rgba(220, 53, 69, 0.05) 40px);
-            padding: 20px;
-            border-radius: 16px;
+            background: #f8d7da;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
             display: none;
-            border-left: 5px solid #dc3545;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(220, 53, 69, 0.2);
-            font-weight: 500;
         }
 
-        /* 响应式设计 */
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
 
-            .preview-section {
-                position: static;
-                min-height: 400px;
+            100% {
+                transform: rotate(360deg);
             }
+        }
+
+        /* API 文档样式 */
+        .api-section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .api-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .api-title h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .api-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .api-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .api-endpoint {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .api-endpoint h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .endpoint-url {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .params-table th,
+        .params-table td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .params-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .params-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .code-section {
+            margin-top: 30px;
+        }
+
+        .code-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .code-tab {
+            background: #e9ecef;
+            color: #495057;
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 14px;
+        }
+
+        .code-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .code-tab:hover:not(.active) {
+            background: #dee2e6;
+        }
+
+        .code-content {
+            display: none;
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 0 10px 10px 10px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .code-content.active {
+            display: block;
+        }
+
+        .copy-btn {
+            float: right;
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #2d3748;
+        }
+
+        .api-url-section {
+            width: 100%;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .api-url-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .api-url-container {
+            position: relative;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .copy-url-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-url-btn:hover {
+            background: #5a67d8;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* 悬浮链接样式 */
+        .floating-links {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .floating-link {
+            background: rgba(102, 126, 234, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .floating-link:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .floating-link .icon {
+            font-size: 16px;
+        }
+
+        .floating-link.demo {
+            background: rgba(40, 167, 69, 0.9);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .floating-link.demo:hover {
+            background: rgba(40, 167, 69, 1);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .floating-link.github {
+            background: rgba(36, 41, 46, 0.9);
+            box-shadow: 0 4px 15px rgba(36, 41, 46, 0.3);
+        }
+
+        .floating-link.github:hover {
+            background: rgba(36, 41, 46, 1);
+            box-shadow: 0 6px 20px rgba(36, 41, 46, 0.4);
         }
 
         @media (max-width: 768px) {
-            .header {
-                padding: 30px 20px 20px;
-            }
-
-            .main-container {
-                padding: 15px;
-            }
-
-            .content-wrapper {
-                padding: 30px 25px;
-                border-radius: 25px;
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px;
             }
 
             .form-row {
                 grid-template-columns: 1fr;
-                gap: 20px;
             }
 
-            .generate-btn {
-                width: 100%;
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .api-section {
                 padding: 20px;
-                font-size: 16px;
             }
 
-            .placeholder {
-                width: 200px;
-                height: 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 25px 15px 20px;
+            .code-tabs {
+                flex-direction: column;
             }
 
-            .main-container {
-                padding: 10px;
+            .code-tab {
+                border-radius: 8px;
             }
 
-            .content-wrapper {
-                padding: 25px 20px;
-                border-radius: 22px;
+            .code-content {
+                border-radius: 10px;
             }
 
-            .form-section {
-                gap: 20px;
+            .floating-links {
+                bottom: 15px;
+                right: 15px;
             }
 
-            .form-group input, .form-group select, .form-group textarea {
-                padding: 16px 18px;
-                font-size: 16px;
-            }
-
-            .color-input {
-                padding: 12px 15px;
-            }
-
-            .color-input input[type="color"] {
-                width: 50px;
-                height: 45px;
-            }
-
-            .placeholder {
-                width: 180px;
-                height: 180px;
-            }
-
-            .placeholder-icon {
-                font-size: 30px;
-            }
-
-            .placeholder-text {
-                font-size: 14px;
-            }
-        }
-
-        /* 触摸设备优化 */
-        @media (hover: none) and (pointer: coarse) {
-            .form-group input, .form-group select, .form-group textarea,
-            .generate-btn, .download-btn, .copy-url-btn {
-                min-height: 48px;
-            }
-
-            .qr-preview:hover {
-                transform: none;
-            }
-
-            .generate-btn:hover:not(:disabled), .download-btn:hover {
-                transform: none;
-            }
-
-            .generate-btn:active, .download-btn:active {
-                transform: scale(0.98);
-            }
-        }
-
-        /* 减少动画偏好 */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            .floating-link {
+                padding: 10px 14px;
+                font-size: 13px;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="app-container">
+    <div class="container">
         <div class="header">
             <h1>🔲 二维码生成器</h1>
-            <p>免费、快速、专业的在线二维码生成工具</p>
+            <p>功能强大的二维码生成工具，支持多种自定义选项</p>
         </div>
 
-        <div class="main-container">
-            <div class="content-wrapper">
-                <div class="main-content">
-                    <div class="form-section">
-                        <form id="qrForm">
-                            <div class="form-group">
-                                <label for="textInput">📝 内容 (文本/网址/联系方式等)</label>
-                                <textarea id="textInput" rows="4" placeholder="输入要生成二维码的内容，支持文本、网址、联系方式等任意内容" required></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="labelInput">🏷️ 标签文字 (可选)</label>
-                                <input type="text" id="labelInput" placeholder="在二维码下方显示的说明文字">
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="sizeInput">📏 尺寸</label>
-                                    <select id="sizeInput">
-                                        <option value="200">200x200 (小)</option>
-                                        <option value="300" selected>300x300 (中)</option>
-                                        <option value="400">400x400 (大)</option>
-                                        <option value="500">500x500 (超大)</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="marginInput">🔲 边距</label>
-                                    <select id="marginInput">
-                                        <option value="1">1 (最小)</option>
-                                        <option value="2" selected>2 (默认)</option>
-                                        <option value="3">3 (中等)</option>
-                                        <option value="4">4 (较大)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="errorLevelInput">🛡️ 容错级别</label>
-                                    <select id="errorLevelInput">
-                                        <option value="L">L - 低 (~7%)</option>
-                                        <option value="M" selected>M - 中 (~15%)</option>
-                                        <option value="Q">Q - 较高 (~25%)</option>
-                                        <option value="H">H - 高 (~30%)</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="formatInput">🖼️ 图片格式</label>
-                                    <select id="formatInput">
-                                        <option value="png" selected>PNG</option>
-                                        <option value="jpg">JPEG</option>
-                                        <option value="svg">SVG</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>🎨 前景色</label>
-                                    <div class="color-input">
-                                        <input type="color" id="colorInput" value="#000000">
-                                        <input type="text" id="colorText" value="#000000">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>🎨 背景色</label>
-                                    <div class="color-input">
-                                        <input type="color" id="bgColorInput" value="#ffffff">
-                                        <input type="text" id="bgColorText" value="#ffffff">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="generate-btn">✨ 生成二维码</button>
-                        </form>
+        <div class="main-content">
+            <!-- 左侧：参数设置 -->
+            <div class="form-section">
+                <form id="qrForm">
+                    <div class="form-group">
+                        <label for="urlInput">文本内容 *</label>
+                        <textarea id="urlInput" placeholder="请输入网址、文本或其他内容..." rows="3" required></textarea>
                     </div>
 
-                    <div class="preview-section">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <div class="loading-text">正在生成二维码...</div>
+                    <div class="form-group">
+                        <label for="labelInput">标签</label>
+                        <input type="text" id="labelInput" placeholder="可选的标签文字">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>二维码大小</label>
+                            <select id="sizeInput">
+                                <option value="200">200x200</option>
+                                <option value="300" selected>300x300</option>
+                                <option value="400">400x400</option>
+                                <option value="500">500x500</option>
+                                <option value="600">600x600</option>
+                            </select>
                         </div>
 
-                        <div class="placeholder">
-                            <div class="placeholder-content">
-                                <div class="placeholder-icon">📱</div>
-                                <div class="placeholder-text">二维码预览</div>
-                                <div class="placeholder-hint">填写内容后点击生成</div>
-                            </div>
+                        <div class="form-group">
+                            <label>容错级别</label>
+                            <select id="errorCorrectionInput">
+                                <option value="L">低 (L)</option>
+                                <option value="M" selected>中 (M)</option>
+                                <option value="Q">高 (Q)</option>
+                                <option value="H">最高 (H)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>前景色</label>
+                        <div class="color-input">
+                            <input type="color" id="foregroundColor" value="#000000">
+                            <input type="text" id="foregroundColorText" value="#000000" placeholder="#000000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>背景色</label>
+                        <div class="color-input">
+                            <input type="color" id="backgroundColor" value="#ffffff">
+                            <input type="text" id="backgroundColorText" value="#ffffff" placeholder="#ffffff">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>内边距</label>
+                            <select id="marginInput">
+                                <option value="0">无边距</option>
+                                <option value="1" selected>小边距</option>
+                                <option value="2">中边距</option>
+                                <option value="3">大边距</option>
+                                <option value="4">超大边距</option>
+                            </select>
                         </div>
 
-                        <img id="qrImage" class="qr-preview" alt="Generated QR Code">
-
-                        <div class="button-group">
-                            <button id="downloadBtn" class="download-btn">💾 下载二维码</button>
+                        <div class="form-group">
+                            <label>图片格式</label>
+                            <select id="formatInput">
+                                <option value="png" selected>PNG</option>
+                                <option value="jpg">JPG</option>
+                                <option value="gif">GIF</option>
+                                <option value="svg">SVG</option>
+                            </select>
                         </div>
+                    </div>
 
-                        <div id="apiUrlSection" class="api-url-section">
-                            <div class="api-url-title">📡 API 请求地址</div>
-                            <div class="api-url-container">
-                                <div id="apiUrlDisplay"></div>
-                                <button id="copyUrlBtn" class="copy-url-btn">📋 复制</button>
-                            </div>
-                        </div>
+                    <button type="submit" class="generate-btn" id="generateBtn">
+                        生成二维码
+                    </button>
+                </form>
 
-                        <div class="error" id="errorMessage"></div>
+                <div class="error" id="error"></div>
+            </div>
+
+            <!-- 右侧：预览区域 -->
+            <div class="preview-section">
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>正在生成二维码...</p>
+                </div>
+
+                <div class="placeholder" id="placeholder">
+                    填写左侧参数后点击生成
+                </div>
+
+                <img id="qrImage" class="qr-preview" alt="生成的二维码">
+
+                <div class="button-group">
+                    <button class="download-btn" id="downloadBtn">
+                        📥 下载二维码
+                    </button>
+                </div>
+
+                <div class="api-url-section" id="apiUrlSection">
+                    <div class="api-url-title">API 请求地址：</div>
+                    <div class="api-url-container">
+                        <button class="copy-url-btn" onclick="copyApiUrl()">复制</button>
+                        <div id="apiUrlDisplay"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- API 文档部分 -->
+    <div class="api-section">
+        <div class="api-title">
+            <h2>🔌 API 文档</h2>
+            <p>为开发者提供简单易用的二维码生成API</p>
+        </div>
+
+        <div class="api-content">
+            <div class="api-endpoint">
+                <h3>API 端点</h3>
+                <div class="endpoint-url">
+                    GET
+                    /qrcode?data={content}&size={size}&color={color}&bgcolor={bgcolor}&ecc={level}&margin={margin}&format={format}
+                </div>
+
+                <h4>参数说明</h4>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>参数名</th>
+                            <th>类型</th>
+                            <th>必填</th>
+                            <th>默认值</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>data</code></td>
+                            <td>string</td>
+                            <td>是</td>
+                            <td>-</td>
+                            <td>要生成二维码的内容（网址、文本等）</td>
+                        </tr>
+                        <tr>
+                            <td><code>size</code></td>
+                            <td>integer</td>
+                            <td>否</td>
+                            <td>300</td>
+                            <td>二维码大小（像素），支持 100-1000</td>
+                        </tr>
+                        <tr>
+                            <td><code>color</code></td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>000000</td>
+                            <td>前景色，6位十六进制颜色代码（不含#）</td>
+                        </tr>
+                        <tr>
+                            <td><code>bgcolor</code></td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>ffffff</td>
+                            <td>背景色，6位十六进制颜色代码（不含#）</td>
+                        </tr>
+                        <tr>
+                            <td><code>ecc</code></td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>M</td>
+                            <td>容错级别：L(低)、M(中)、Q(高)、H(最高)</td>
+                        </tr>
+                        <tr>
+                            <td><code>margin</code></td>
+                            <td>integer</td>
+                            <td>否</td>
+                            <td>1</td>
+                            <td>内边距，支持 0-4</td>
+                        </tr>
+                        <tr>
+                            <td><code>format</code></td>
+                            <td>string</td>
+                            <td>否</td>
+                            <td>png</td>
+                            <td>图片格式：png、jpg、gif、svg</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>返回说明</h4>
+                <ul style="padding-left: 20px; margin: 15px 0;">
+                    <li>成功：返回二维码图片文件（二进制数据）</li>
+                    <li>失败：返回错误信息（文本格式）</li>
+                </ul>
+            </div>
+
+            <div class="code-section">
+                <h3>代码示例</h3>
+
+                <div class="code-tabs">
+                    <button class="code-tab active" onclick="showCode('javascript')">JavaScript</button>
+                    <button class="code-tab" onclick="showCode('nodejs')">Node.js</button>
+                    <button class="code-tab" onclick="showCode('python')">Python</button>
+                    <button class="code-tab" onclick="showCode('php')">PHP</button>
+                    <button class="code-tab" onclick="showCode('go')">Go</button>
+                    <button class="code-tab" onclick="showCode('curl')">cURL</button>
+                </div>
+
+                <!-- JavaScript 示例 -->
+                <div class="code-content active" id="javascript">
+                    <button class="copy-btn" onclick="copyCode('javascript')">复制代码</button>
+                    <pre><code>// 浏览器端 JavaScript
+async function generateQRCode() {
+    const params = new URLSearchParams({
+        data: 'https://example.com',
+        size: '300',
+        color: '000000',
+        bgcolor: 'ffffff',
+        ecc: 'M',
+        margin: '1',
+        format: 'png'
+    });
+
+    try {
+        const response = await fetch(`/qrcode?${params.toString()}`);
+
+        if (!response.ok) {
+            throw new Error(await response.text());
+        }
+
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+
+        // 显示图片
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        document.body.appendChild(img);
+
+        // 下载图片
+        const a = document.createElement('a');
+        a.href = imageUrl;
+        a.download = 'qrcode.png';
+        a.click();
+
+    } catch (error) {
+        console.error('生成二维码失败:', error);
+    }
+}</code></pre>
+                </div>
+
+                <!-- Node.js 示例 -->
+                <div class="code-content" id="nodejs">
+                    <button class="copy-btn" onclick="copyCode('nodejs')">复制代码</button>
+                    <pre><code>// Node.js
+const fs = require('fs');
+const https = require('https');
+const { URLSearchParams } = require('url');
+
+function generateQRCode() {
+    const params = new URLSearchParams({
+        data: 'https://example.com',
+        size: '300',
+        color: '000000',
+        bgcolor: 'ffffff',
+        ecc: 'M',
+        margin: '1',
+        format: 'png'
+    });
+
+    const url = `https://yourdomain.com/qrcode?${params.toString()}`;
+
+    const file = fs.createWriteStream('qrcode.png');
+
+    https.get(url, (response) => {
+        if (response.statusCode === 200) {
+            response.pipe(file);
+            file.on('finish', () => {
+                file.close();
+                console.log('二维码保存成功: qrcode.png');
+            });
+        } else {
+            console.error('生成二维码失败:', response.statusCode);
+        }
+    }).on('error', (error) => {
+        console.error('请求失败:', error);
+    });
+}
+
+generateQRCode();</code></pre>
+                </div>
+
+                <!-- Python 示例 -->
+                <div class="code-content" id="python">
+                    <button class="copy-btn" onclick="copyCode('python')">复制代码</button>
+                    <pre><code># Python
+import requests
+from urllib.parse import urlencode
+
+def generate_qrcode():
+    params = {
+        'data': 'https://example.com',
+        'size': '300',
+        'color': '000000',
+        'bgcolor': 'ffffff',
+        'ecc': 'M',
+        'margin': '1',
+        'format': 'png'
+    }
+
+    url = f"https://yourdomain.com/qrcode?{urlencode(params)}"
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+
+        # 保存图片
+        with open('qrcode.png', 'wb') as f:
+            f.write(response.content)
+
+        print('二维码保存成功: qrcode.png')
+
+    except requests.exceptions.RequestException as e:
+        print(f'生成二维码失败: {e}')
+
+# 使用示例
+if __name__ == '__main__':
+    generate_qrcode()</code></pre>
+                </div>
+
+                <!-- PHP 示例 -->
+                <div class="code-content" id="php">
+                    <button class="copy-btn" onclick="copyCode('php')">复制代码</button>
+                    <pre><code><?php
+// PHP
+function generateQRCode() {
+    $params = http_build_query([
+        'data' => 'https://example.com',
+        'size' => '300',
+        'color' => '000000',
+        'bgcolor' => 'ffffff',
+        'ecc' => 'M',
+        'margin' => '1',
+        'format' => 'png'
+    ]);
+
+    $url = "https://yourdomain.com/qrcode?" . $params;
+
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'GET',
+            'timeout' => 30
+        ]
+    ]);
+
+    $content = file_get_contents($url, false, $context);
+
+    if ($content !== false) {
+        file_put_contents('qrcode.png', $content);
+        echo "二维码保存成功: qrcode.png\n";
+    } else {
+        echo "生成二维码失败\n";
+    }
+}
+
+// 使用示例
+generateQRCode();
+?></code></pre>
+                </div>
+
+                <!-- Go 示例 -->
+                <div class="code-content" id="go">
+                    <button class="copy-btn" onclick="copyCode('go')">复制代码</button>
+                    <pre><code>// Go
+package main
+
+import (
+    "fmt"
+    "io"
+    "net/http"
+    "net/url"
+    "os"
+)
+
+func generateQRCode() error {
+    params := url.Values{}
+    params.Set("data", "https://example.com")
+    params.Set("size", "300")
+    params.Set("color", "000000")
+    params.Set("bgcolor", "ffffff")
+    params.Set("ecc", "M")
+    params.Set("margin", "1")
+    params.Set("format", "png")
+
+    apiURL := "https://yourdomain.com/qrcode?" + params.Encode()
+
+    resp, err := http.Get(apiURL)
+    if err != nil {
+        return fmt.Errorf("请求失败: %v", err)
+    }
+    defer resp.Body.Close()
+
+    if resp.StatusCode != http.StatusOK {
+        return fmt.Errorf("生成二维码失败: %d", resp.StatusCode)
+    }
+
+    file, err := os.Create("qrcode.png")
+    if err != nil {
+        return fmt.Errorf("创建文件失败: %v", err)
+    }
+    defer file.Close()
+
+    _, err = io.Copy(file, resp.Body)
+    if err != nil {
+        return fmt.Errorf("保存文件失败: %v", err)
+    }
+
+    fmt.Println("二维码保存成功: qrcode.png")
+    return nil
+}
+
+func main() {
+    if err := generateQRCode(); err != nil {
+        fmt.Printf("错误: %v\n", err)
+    }
+}</code></pre>
+                </div>
+
+                <!-- cURL 示例 -->
+                <div class="code-content" id="curl">
+                    <button class="copy-btn" onclick="copyCode('curl')">复制代码</button>
+                    <pre><code># cURL 命令行
+# 基本用法
+curl "https://yourdomain.com/qrcode?data=https://example.com" \
+  -o qrcode.png
+
+# 带参数的完整示例
+curl "https://yourdomain.com/qrcode?data=https://example.com&size=400&color=FF0000&bgcolor=FFFF00&ecc=H&margin=2&format=png" \
+  -o qrcode.png
+
+# 生成SVG格式
+curl "https://yourdomain.com/qrcode?data=Hello%20World&format=svg" \
+  -o qrcode.svg
+
+# 使用变量
+URL="https://example.com"
+SIZE="500"
+COLOR="000000"
+BGCOLOR="ffffff"
+
+curl "https://yourdomain.com/qrcode?data=${URL}&size=${SIZE}&color=${COLOR}&bgcolor=${BGCOLOR}" \
+  -o qrcode.png
+
+echo "二维码已保存为 qrcode.png"</code></pre>
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>💡 使用提示</h3>
+                <ul style="padding-left: 20px; margin: 15px 0; line-height: 1.6;">
+                    <li><strong>URL编码</strong>：确保data参数中的特殊字符进行URL编码</li>
+                    <li><strong>颜色格式</strong>：颜色参数使用6位十六进制代码，不包含#号</li>
+                    <li><strong>大小限制</strong>：推荐大小范围为100-1000像素</li>
+                    <li><strong>缓存机制</strong>：相同参数的请求会被缓存1小时</li>
+                    <li><strong>跨域支持</strong>：API支持CORS，可直接在浏览器中调用</li>
+                    <li><strong>容错级别</strong>：L=7%，M=15%，Q=25%，H=30%的容错率</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-links">
+        <a href="https://github.com/thinkgin/qrcode" class="floating-link github" target="_blank">
+            <span class="icon">📂</span>
+            GitHub
+        </a>
+    </div>
+
     <script>
-        // 初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            // 颜色输入同步
-            const colorInput = document.getElementById('colorInput');
-            const colorText = document.getElementById('colorText');
-            const bgColorInput = document.getElementById('bgColorInput');
-            const bgColorText = document.getElementById('bgColorText');
+        const form = document.getElementById('qrForm');
+        const urlInput = document.getElementById('urlInput');
+        const labelInput = document.getElementById('labelInput');
+        const sizeInput = document.getElementById('sizeInput');
+        const errorCorrectionInput = document.getElementById('errorCorrectionInput');
+        const foregroundColor = document.getElementById('foregroundColor');
+        const foregroundColorText = document.getElementById('foregroundColorText');
+        const backgroundColor = document.getElementById('backgroundColor');
+        const backgroundColorText = document.getElementById('backgroundColorText');
+        const marginInput = document.getElementById('marginInput');
+        const formatInput = document.getElementById('formatInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const placeholder = document.getElementById('placeholder');
+        const qrImage = document.getElementById('qrImage');
+        const downloadBtn = document.getElementById('downloadBtn');
 
-            colorInput.addEventListener('input', () => colorText.value = colorInput.value);
-            colorText.addEventListener('input', () => colorInput.value = colorText.value);
-            bgColorInput.addEventListener('input', () => bgColorText.value = bgColorInput.value);
-            bgColorText.addEventListener('input', () => bgColorInput.value = bgColorText.value);
-
-            // 表单提交
-            document.getElementById('qrForm').addEventListener('submit', generateQR);
-
-            // 复制按钮
-            document.getElementById('copyUrlBtn').addEventListener('click', copyApiUrl);
+        // 颜色输入同步
+        foregroundColor.addEventListener('input', () => {
+            foregroundColorText.value = foregroundColor.value;
         });
 
-        async function generateQR(e) {
+        foregroundColorText.addEventListener('input', () => {
+            if (/^#[0-9A-F]{6}$/i.test(foregroundColorText.value)) {
+                foregroundColor.value = foregroundColorText.value;
+            }
+        });
+
+        backgroundColor.addEventListener('input', () => {
+            backgroundColorText.value = backgroundColor.value;
+        });
+
+        backgroundColorText.addEventListener('input', () => {
+            if (/^#[0-9A-F]{6}$/i.test(backgroundColorText.value)) {
+                backgroundColor.value = backgroundColorText.value;
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const text = document.getElementById('textInput').value.trim();
-            const label = document.getElementById('labelInput').value.trim();
-            const size = document.getElementById('sizeInput').value;
-            const margin = document.getElementById('marginInput').value;
-            const errorLevel = document.getElementById('errorLevelInput').value;
-            const format = document.getElementById('formatInput').value;
-            const color = document.getElementById('colorText').value.replace('#', '');
-            const bgColor = document.getElementById('bgColorText').value.replace('#', '');
-
-            if (!text) {
+            const content = urlInput.value.trim();
+            if (!content) {
                 showError('请输入要生成二维码的内容');
                 return;
             }
 
-            showLoading();
+            // 重置状态
             hideError();
+            hideResult();
+            showLoading();
+            generateBtn.disabled = true;
 
             try {
-                // 构建API URL
-                let apiUrl = `/qrcode?text=${encodeURIComponent(text)}&size=${size}&margin=${margin}&errorLevel=${errorLevel}&format=${format}&color=${color}&bgColor=${bgColor}`;
+                // 构建参数
+                const params = new URLSearchParams({
+                    data: content,
+                    size: sizeInput.value,
+                    ecc: errorCorrectionInput.value,
+                    color: foregroundColorText.value.replace('#', ''),
+                    bgcolor: backgroundColorText.value.replace('#', ''),
+                    margin: marginInput.value,
+                    format: formatInput.value
+                });
 
-                if (label) {
-                    apiUrl += `&label=${encodeURIComponent(label)}`;
+                // 添加标签参数
+                if (labelInput.value.trim()) {
+                    params.append('label', labelInput.value.trim());
                 }
 
+                const apiUrl = `/qrcode?${params.toString()}`;
                 const response = await fetch(apiUrl);
 
                 if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    const errorText = await response.text();
+                    throw new Error(errorText || '二维码生成失败');
                 }
 
                 const blob = await response.blob();
                 const imageUrl = URL.createObjectURL(blob);
 
-                showResult(imageUrl, apiUrl);
-            } catch (error) {
-                console.error('生成二维码失败:', error);
-                showError('生成二维码失败: ' + error.message);
+                showResult(imageUrl, window.location.origin + apiUrl);
+
+            } catch (err) {
+                showError(err.message);
+            } finally {
                 hideLoading();
+                generateBtn.disabled = false;
             }
-        }
-
-        function showResult(imageUrl, apiUrl) {
-            hideLoading();
-
-            const qrImage = document.getElementById('qrImage');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const placeholder = document.querySelector('.placeholder');
-            const apiUrlSection = document.getElementById('apiUrlSection');
-            const apiUrlDisplay = document.getElementById('apiUrlDisplay');
-
-            // 显示二维码
-            placeholder.style.display = 'none';
-            qrImage.src = imageUrl;
-            qrImage.style.display = 'block';
-            downloadBtn.style.display = 'inline-block';
-
-            // 显示API URL
-            apiUrlDisplay.textContent = window.location.origin + apiUrl;
-            apiUrlSection.style.display = 'block';
-
-            // 设置下载功能
-            downloadBtn.onclick = function() {
-                const link = document.createElement('a');
-                link.href = imageUrl;
-                link.download = `qrcode_${Date.now()}.${document.getElementById('formatInput').value}`;
-                link.click();
-            };
-        }
-
-        function hideResult() {
-            const qrImage = document.getElementById('qrImage');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const placeholder = document.querySelector('.placeholder');
-            const apiUrlSection = document.getElementById('apiUrlSection');
-
-            qrImage.style.display = 'none';
-            downloadBtn.style.display = 'none';
-            apiUrlSection.style.display = 'none';
-            placeholder.style.display = 'flex';
-        }
+        });
 
         function showLoading() {
-            document.querySelector('.loading').style.display = 'block';
-            document.querySelector('.placeholder').style.display = 'none';
-            document.getElementById('qrImage').style.display = 'none';
+            loading.style.display = 'block';
+            placeholder.style.display = 'none';
+            qrImage.style.display = 'none';
+            downloadBtn.style.display = 'none';
         }
 
         function hideLoading() {
-            document.querySelector('.loading').style.display = 'none';
+            loading.style.display = 'none';
+        }
+
+        function showResult(imageUrl, apiUrl) {
+            placeholder.style.display = 'none';
+            qrImage.src = imageUrl;
+            qrImage.style.display = 'block';
+            downloadBtn.style.display = 'block';
+
+            // 设置下载功能
+            downloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = imageUrl;
+                a.download = `qrcode-${Date.now()}.${formatInput.value}`;
+                a.click();
+            };
+
+            // 显示完整的API URL
+            const apiUrlDisplay = document.getElementById('apiUrlDisplay');
+            const apiUrlSection = document.getElementById('apiUrlSection');
+            apiUrlDisplay.textContent = apiUrl;
+            apiUrlSection.style.display = 'block';
+        }
+
+        function hideResult() {
+            qrImage.style.display = 'none';
+            downloadBtn.style.display = 'none';
+            placeholder.style.display = 'flex';
+            document.getElementById('apiUrlSection').style.display = 'none';
         }
 
         function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
+            error.textContent = message;
+            error.style.display = 'block';
         }
 
         function hideError() {
-            document.getElementById('errorMessage').style.display = 'none';
+            error.style.display = 'none';
         }
 
-        async function copyApiUrl() {
-            const apiUrl = document.getElementById('apiUrlDisplay').textContent;
-            try {
-                await navigator.clipboard.writeText(apiUrl);
-                const btn = document.getElementById('copyUrlBtn');
+        // 示例内容
+        const examples = [
+            'https://www.baidu.com',
+            'https://www.github.com',
+            '你好世界！',
+            'Hello World!'
+        ];
+
+        urlInput.addEventListener('focus', () => {
+            if (!urlInput.value) {
+                urlInput.placeholder = examples[Math.floor(Math.random() * examples.length)];
+            }
+        });
+
+        // API 文档相关功能
+        function showCode(language) {
+            // 隐藏所有代码块
+            document.querySelectorAll('.code-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 移除所有标签的active状态
+            document.querySelectorAll('.code-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 显示选中的代码块
+            document.getElementById(language).classList.add('active');
+
+            // 激活选中的标签
+            event.target.classList.add('active');
+        }
+
+        function copyCode(language) {
+            const codeBlock = document.querySelector(`#${language} code`);
+            const text = codeBlock.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
                 const originalText = btn.textContent;
-                btn.textContent = '✅ 已复制';
+                btn.textContent = '已复制!';
+                btn.style.background = '#48bb78';
+
                 setTimeout(() => {
                     btn.textContent = originalText;
+                    btn.style.background = '#4a5568';
                 }, 2000);
-            } catch (err) {
+            }).catch(err => {
                 console.error('复制失败:', err);
-                alert('复制失败，请手动复制');
-            }
+            });
+        }
+
+        function copyApiUrl() {
+            const apiUrl = document.getElementById('apiUrlDisplay').textContent;
+            navigator.clipboard.writeText(apiUrl).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '已复制!';
+                btn.style.background = '#48bb78';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#667eea';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
         }
     </script>
 </body>
+
 </html>
