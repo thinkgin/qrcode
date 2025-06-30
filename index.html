@@ -794,6 +794,35 @@
             box-shadow: 0 12px 35px rgba(36, 41, 46, 0.5);
         }
 
+        /* 移动端禁用渐变动画防止闪烁 */
+        @media (max-width: 768px) {
+            body {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 70%, #f5576c 100%) !important;
+                background-size: 100% 100% !important;
+                background-attachment: fixed;
+                animation: none !important;
+            }
+
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                background-size: 100% 100% !important;
+                animation: none !important;
+            }
+
+            .header::before {
+                animation: none !important;
+                opacity: 0 !important;
+            }
+
+            .placeholder {
+                animation: none !important;
+            }
+
+            .container {
+                animation: none !important;
+            }
+        }
+
         /* 响应式设计优化 */
         @media (max-width: 1024px) {
             .main-content {
@@ -947,14 +976,31 @@
         @media (max-width: 480px) {
             body {
                 padding: 2px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 70%, #f5576c 100%) !important;
+                background-size: 100% 100% !important;
+                animation: none !important;
             }
 
             .container {
                 border-radius: 12px;
+                animation: none !important;
             }
 
             .header {
                 padding: 20px 12px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                background-size: 100% 100% !important;
+                animation: none !important;
+            }
+
+            .header::before {
+                display: none !important;
+            }
+
+            /* 禁用所有可能引起闪烁的动画 */
+            *, *::before, *::after {
+                animation-duration: 0s !important;
+                transition-duration: 0.1s !important;
             }
 
             .main-content {
@@ -2081,10 +2127,22 @@ echo "二维码已保存为 qrcode.png"</code></pre>
             loading.style.display = 'none';
         }
 
-        function showResult(imageUrl, apiUrl) {
+                function showResult(imageUrl, apiUrl) {
             placeholder.style.display = 'none';
-            qrImage.src = imageUrl;
-            qrImage.style.display = 'block';
+
+            // 检测是否为微信浏览器
+            const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            // 如果是微信浏览器且使用blob URL，转换为可保存的格式
+            if (isWeChat && imageUrl.startsWith('blob:')) {
+                convertBlobToDataUrlForWeChat(imageUrl, apiUrl);
+            } else {
+                qrImage.src = imageUrl;
+                qrImage.style.display = 'block';
+                setupImageEvents(imageUrl, apiUrl, isMobile, isWeChat);
+            }
+
             downloadBtn.style.display = 'block';
 
             // 设置下载功能
@@ -2092,13 +2150,17 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                 downloadQRCode(imageUrl, `qrcode-${Date.now()}.${formatInput.value}`);
             };
 
-            // 为移动端添加长按保存提示
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
             // 根据设备类型调整下载按钮文本和显示提示
             if (isMobile) {
-                downloadBtn.innerHTML = '📱 保存到手机';
-                downloadBtn.title = '点击尝试下载，或长按图片保存';
+                if (isWeChat) {
+                    downloadBtn.innerHTML = '📱 微信保存图片';
+                    downloadBtn.title = '微信浏览器请长按图片保存';
+                    document.getElementById('mobileHint').innerHTML = '<div style="font-size: 12px; color: #666; text-align: center; margin-top: 10px; padding: 10px; background: rgba(232, 245, 232, 0.9); border-radius: 8px; border: 1px solid #28a745;">✅ 图片已优化为微信兼容格式，长按即可保存</div>';
+                } else {
+                    downloadBtn.innerHTML = '📱 保存到手机';
+                    downloadBtn.title = '点击尝试下载，或长按图片保存';
+                    document.getElementById('mobileHint').innerHTML = '<div style="font-size: 12px; color: #666; text-align: center; margin-top: 10px; padding: 10px; background: rgba(248, 249, 250, 0.8); border-radius: 8px; border: 1px dashed #ddd;">💡 移动端保存提示：长按图片选择"保存图片"</div>';
+                }
                 document.getElementById('mobileHint').style.display = 'block';
             } else {
                 downloadBtn.innerHTML = '📥 下载二维码';
@@ -2106,39 +2168,83 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                 document.getElementById('mobileHint').style.display = 'none';
             }
 
-            if (isMobile) {
-                // 添加长按事件监听
-                let longPressTimer;
-
-                qrImage.addEventListener('touchstart', (e) => {
-                    longPressTimer = setTimeout(() => {
-                        // 震动反馈（如果支持）
-                        if (navigator.vibrate) {
-                            navigator.vibrate(50);
-                        }
-                        showMobileSaveTip();
-                    }, 500);
-                });
-
-                qrImage.addEventListener('touchend', () => {
-                    clearTimeout(longPressTimer);
-                });
-
-                qrImage.addEventListener('touchmove', () => {
-                    clearTimeout(longPressTimer);
-                });
-
-                // 添加右键菜单事件（一些移动浏览器支持）
-                qrImage.addEventListener('contextmenu', (e) => {
-                    showMobileSaveTip();
-                });
-            }
-
             // 显示完整的API URL
             const apiUrlDisplay = document.getElementById('apiUrlDisplay');
             const apiUrlSection = document.getElementById('apiUrlSection');
             apiUrlDisplay.textContent = apiUrl;
             apiUrlSection.style.display = 'block';
+        }
+
+        // 为微信浏览器转换blob URL为data URL
+        function convertBlobToDataUrlForWeChat(blobUrl, apiUrl) {
+            fetch(blobUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        qrImage.src = e.target.result; // 使用data URL
+                        qrImage.style.display = 'block';
+                        setupImageEvents(e.target.result, apiUrl, true, true);
+                    };
+                    reader.readAsDataURL(blob);
+                })
+                .catch(error => {
+                    console.log('转换图片格式失败，使用API URL:', error);
+                    // 如果转换失败，直接使用API URL
+                    const apiImageUrl = apiUrl.replace(window.location.origin, '');
+                    qrImage.src = apiImageUrl;
+                    qrImage.style.display = 'block';
+                    setupImageEvents(apiImageUrl, apiUrl, true, true);
+                });
+        }
+
+        // 设置图片事件监听
+        function setupImageEvents(imageUrl, apiUrl, isMobile, isWeChat) {
+            if (isMobile) {
+                // 移除之前的事件监听器（防止重复绑定）
+                qrImage.removeEventListener('touchstart', handleTouchStart);
+                qrImage.removeEventListener('touchend', handleTouchEnd);
+                qrImage.removeEventListener('touchmove', handleTouchMove);
+                qrImage.removeEventListener('contextmenu', handleContextMenu);
+
+                // 添加长按事件监听
+                let longPressTimer;
+
+                function handleTouchStart(e) {
+                    longPressTimer = setTimeout(() => {
+                        // 震动反馈（如果支持）
+                        if (navigator.vibrate) {
+                            navigator.vibrate(50);
+                        }
+                        if (isWeChat) {
+                            showWeChatSaveTip();
+                        } else {
+                            showMobileSaveTip();
+                        }
+                    }, 500);
+                }
+
+                function handleTouchEnd() {
+                    clearTimeout(longPressTimer);
+                }
+
+                function handleTouchMove() {
+                    clearTimeout(longPressTimer);
+                }
+
+                function handleContextMenu(e) {
+                    if (isWeChat) {
+                        showWeChatSaveTip();
+                    } else {
+                        showMobileSaveTip();
+                    }
+                }
+
+                qrImage.addEventListener('touchstart', handleTouchStart);
+                qrImage.addEventListener('touchend', handleTouchEnd);
+                qrImage.addEventListener('touchmove', handleTouchMove);
+                qrImage.addEventListener('contextmenu', handleContextMenu);
+            }
         }
 
         function hideResult() {
@@ -2172,12 +2278,19 @@ echo "二维码已保存为 qrcode.png"</code></pre>
             }
         });
 
-        // 兼容手机端的下载功能
+                // 兼容手机端的下载功能
         function downloadQRCode(imageUrl, filename) {
-            // 检测是否为移动设备
+            // 检测是否为移动设备和微信浏览器
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
 
             if (isMobile) {
+                // 如果是微信浏览器，显示特殊提示
+                if (isWeChat) {
+                    showWeChatDownloadTip();
+                    return;
+                }
+
                 // 移动端处理方式
                 try {
                     // 方法1：尝试使用现代浏览器的文件下载API
@@ -2360,6 +2473,164 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                     tip.remove();
                 }
             }, 4000);
+        }
+
+        // 显示微信浏览器下载提示
+        function showWeChatDownloadTip() {
+            // 如果已经有提示，先移除
+            const existingTip = document.getElementById('wechat-download-tip');
+            if (existingTip) {
+                existingTip.remove();
+            }
+
+            const tip = document.createElement('div');
+            tip.id = 'wechat-download-tip';
+            tip.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(255, 255, 255, 0.98);
+                color: #333;
+                padding: 25px;
+                border-radius: 20px;
+                font-size: 15px;
+                text-align: center;
+                z-index: 10002;
+                max-width: 85%;
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(20px);
+                line-height: 1.6;
+                border: 2px solid rgba(40, 167, 69, 0.3);
+            `;
+            tip.innerHTML = `
+                <div style="font-size: 28px; margin-bottom: 15px;">✅</div>
+                <div style="font-weight: 700; margin-bottom: 15px; color: #28a745;">图片已优化完成</div>
+                <div style="margin-bottom: 20px; font-size: 14px;">
+                    二维码已转换为微信兼容格式<br>
+                    现在可以正常保存了！
+                </div>
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; text-align: left; border: 1px solid #28a745;">
+                    <div style="margin-bottom: 8px;">💾 <strong>保存步骤：</strong></div>
+                    <div style="margin-bottom: 5px;">1️⃣ 长按上方二维码图片</div>
+                    <div style="margin-bottom: 5px;">2️⃣ 选择"保存到相册"</div>
+                    <div style="margin-bottom: 8px;">3️⃣ 确认保存到手机相册</div>
+                    <div style="margin-top: 10px; font-size: 12px; color: #666; border-top: 1px dashed #28a745; padding-top: 8px;">
+                        💡 备选方案：点击右上角"..."选择"在浏览器中打开"
+                    </div>
+                </div>
+                <button onclick="this.parentNode.remove()" style="
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    padding: 12px 25px;
+                    border-radius: 10px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: background 0.3s;
+                ">我知道了</button>
+            `;
+
+            document.body.appendChild(tip);
+
+            // 6秒后自动移除提示
+            setTimeout(() => {
+                if (tip && tip.parentNode) {
+                    tip.style.opacity = '0';
+                    tip.style.transform = 'translate(-50%, -50%) scale(0.9)';
+                    tip.style.transition = 'all 0.3s ease';
+                    setTimeout(() => {
+                        if (tip && tip.parentNode) {
+                            tip.remove();
+                        }
+                    }, 300);
+                }
+            }, 6000);
+        }
+
+        // 显示微信专门的保存提示
+        function showWeChatSaveTip() {
+            // 如果已经有提示，先移除
+            const existingTip = document.getElementById('wechat-save-tip');
+            if (existingTip) {
+                existingTip.remove();
+            }
+
+            const tip = document.createElement('div');
+            tip.id = 'wechat-save-tip';
+            tip.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(255, 255, 255, 0.98);
+                color: #333;
+                padding: 25px;
+                border-radius: 15px;
+                font-size: 15px;
+                text-align: center;
+                z-index: 10003;
+                max-width: 85%;
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(20px);
+                line-height: 1.6;
+                border: 2px solid rgba(40, 167, 69, 0.3);
+            `;
+            tip.innerHTML = `
+                <div style="font-size: 28px; margin-bottom: 15px;">📱</div>
+                <div style="font-weight: 700; margin-bottom: 15px; color: #28a745;">微信保存图片</div>
+                <div style="margin-bottom: 15px; font-size: 14px;">
+                    图片已优化为微信兼容格式
+                </div>
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; text-align: left; border: 1px solid #28a745;">
+                    <div style="margin-bottom: 8px; font-weight: 600;">💾 保存步骤：</div>
+                    <div style="margin-bottom: 5px;">1️⃣ 长按上方二维码图片</div>
+                    <div style="margin-bottom: 5px;">2️⃣ 在弹出菜单中选择"保存到相册"</div>
+                    <div style="margin-bottom: 5px;">3️⃣ 确认保存到手机相册</div>
+                    <div style="margin-top: 10px; font-size: 12px; color: #666;">
+                        💡 提示：图片已转换为微信支持的格式
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button onclick="this.parentNode.parentNode.remove()" style="
+                        background: #28a745;
+                        color: white;
+                        border: none;
+                        padding: 12px 20px;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        cursor: pointer;
+                    ">知道了</button>
+                    <button onclick="openImageInNewWindow(document.getElementById('qrImage').src)" style="
+                        background: #17a2b8;
+                        color: white;
+                        border: none;
+                        padding: 12px 20px;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        cursor: pointer;
+                    ">新窗口打开</button>
+                </div>
+            `;
+
+            document.body.appendChild(tip);
+
+            // 6秒后自动移除提示
+            setTimeout(() => {
+                if (tip && tip.parentNode) {
+                    tip.style.opacity = '0';
+                    tip.style.transform = 'translate(-50%, -50%) scale(0.9)';
+                    tip.style.transition = 'all 0.3s ease';
+                    setTimeout(() => {
+                        if (tip && tip.parentNode) {
+                            tip.remove();
+                        }
+                    }, 300);
+                }
+            }, 8000);
         }
 
         // 显示移动端保存图片提示
