@@ -56,6 +56,7 @@
             min-height: 100vh;
             padding: 10px;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         @keyframes gradientShift {
@@ -82,7 +83,7 @@
 
         .container {
             max-width: 1400px;
-            margin: 0 auto;
+            margin: 70px auto 0;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             border-radius: 25px;
@@ -872,7 +873,7 @@
 
             .container {
                 border-radius: 15px;
-                margin: 0;
+                margin: 50px 0 0;
             }
 
             .header {
@@ -994,6 +995,7 @@
             .container {
                 border-radius: 12px;
                 animation: none !important;
+                margin: 40px 0 0;
             }
 
             .header {
@@ -1145,6 +1147,7 @@
 
             .container {
                 border-radius: 10px;
+                margin: 35px 0 0;
             }
 
             .header {
@@ -1410,11 +1413,206 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
+
+                /* 面包屑导航样式 */
+        .breadcrumb {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            padding: 6px 8px;
+            box-shadow:
+                0 8px 25px rgba(102, 126, 234, 0.15),
+                0 4px 15px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .breadcrumb:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow:
+                0 12px 35px rgba(102, 126, 234, 0.2),
+                0 6px 20px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .breadcrumb-link {
+            color: #333;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .breadcrumb-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .breadcrumb-link:hover::before {
+            left: 100%;
+        }
+
+        .breadcrumb-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .breadcrumb-link.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow:
+                0 4px 15px rgba(102, 126, 234, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .breadcrumb-link.active:hover {
+            transform: translateY(-1px);
+            box-shadow:
+                0 6px 20px rgba(102, 126, 234, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .breadcrumb-separator {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 8px;
+            font-weight: bold;
+            user-select: none;
+            margin: 0 2px;
+        }
+
+        /* 面包屑移动端适配 */
+        @media (max-width: 768px) {
+            .breadcrumb {
+                top: 8px;
+                padding: 5px 6px;
+                border-radius: 18px;
+                max-width: calc(100vw - 30px);
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .breadcrumb::-webkit-scrollbar {
+                display: none;
+            }
+
+            .breadcrumb-link {
+                font-size: 12px;
+                padding: 8px 12px;
+                border-radius: 14px;
+                white-space: nowrap;
+            }
+
+            .breadcrumb-list {
+                gap: 3px;
+            }
+
+            .breadcrumb-separator {
+                font-size: 7px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .breadcrumb {
+                top: 5px;
+                padding: 4px 5px;
+                border-radius: 16px;
+                max-width: calc(100vw - 20px);
+            }
+
+            .breadcrumb-link {
+                font-size: 11px;
+                padding: 7px 10px;
+                border-radius: 12px;
+            }
+
+            .breadcrumb-list {
+                gap: 2px;
+            }
+
+            .breadcrumb-separator {
+                font-size: 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .breadcrumb {
+                top: 3px;
+                padding: 3px 4px;
+                border-radius: 14px;
+            }
+
+            .breadcrumb-link {
+                font-size: 10px;
+                padding: 6px 8px;
+                border-radius: 10px;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <!-- 面包屑导航 -->
+    <nav class="breadcrumb">
+        <ul class="breadcrumb-list">
+            <li class="breadcrumb-item">
+                <a href="#qrcode-generator" class="breadcrumb-link active" data-target="qrcode-generator">
+                    <span>⬡</span> 二维码生成
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <span class="breadcrumb-separator">⬢</span>
+                <a href="#api-docs" class="breadcrumb-link" data-target="api-docs">
+                    <span>⚡</span> API文档
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container" id="qrcode-generator">
         <div class="header">
             <h1>🔲 二维码生成器</h1>
             <p>功能强大的二维码生成工具，支持多种自定义选项（下滑查看API文档）</p>
@@ -1545,7 +1743,7 @@
     <br>
 
     <!-- API 文档部分 -->
-    <div class="api-section">
+    <div class="api-section" id="api-docs">
         <div class="api-title">
             <h2>🔌 API 文档</h2>
             <p>为开发者提供简单易用的二维码生成API</p>
@@ -2714,6 +2912,88 @@ echo "二维码已保存为 qrcode.png"</code></pre>
                 }, 300);
             });
         }
+
+        // 面包屑导航功能
+        function initBreadcrumb() {
+            const breadcrumbLinks = document.querySelectorAll('.breadcrumb-link');
+            const sections = {
+                'qrcode-generator': document.getElementById('qrcode-generator'),
+                'api-docs': document.getElementById('api-docs')
+            };
+
+            // 设置活动状态
+            function setActiveLink(targetId) {
+                breadcrumbLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.target === targetId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            // 点击事件处理
+            breadcrumbLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.dataset.target;
+                    const targetElement = sections[targetId];
+
+                                        if (targetElement) {
+                        // 计算滚动位置，避免被导航遮挡
+                        const targetPosition = targetElement.offsetTop - 100; // 100px偏移量
+
+                        // 平滑滚动到目标位置
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // 更新活动状态
+                        setActiveLink(targetId);
+                    }
+                });
+            });
+
+                        // 滚动监听，自动更新活动状态
+            function updateActiveOnScroll() {
+                const scrollPosition = window.scrollY + 150; // 增加偏移量避免导航遮挡
+
+                let currentSection = 'qrcode-generator';
+
+                Object.entries(sections).forEach(([id, element]) => {
+                    const elementTop = element.offsetTop;
+                    const elementHeight = element.offsetHeight;
+
+                    if (scrollPosition >= elementTop && scrollPosition < elementTop + elementHeight) {
+                        currentSection = id;
+                    }
+                });
+
+                setActiveLink(currentSection);
+            }
+
+            // 节流函数
+            function throttle(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // 添加滚动监听
+            window.addEventListener('scroll', throttle(updateActiveOnScroll, 100));
+
+            // 初始化状态
+            updateActiveOnScroll();
+        }
+
+        // 页面加载完成后初始化面包屑
+        document.addEventListener('DOMContentLoaded', initBreadcrumb);
 
         // API 文档相关功能
         function showCode(language) {
